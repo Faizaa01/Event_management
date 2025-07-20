@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-mx4ljcu2_31^*bn8isx+p_0pe)-6#+&td$j4!-!8s(l%j*d&4u
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-CSRF_TRUSTED_ORIGIN = ['https://*.onrender.com', 'http://127.0.0.1:8000']
+CSRF_TRUSTED_ORIGINS = ['https://event-management-pmms.onrender.com', 'http://127.0.0.1:8000']
 
 # Application definition
 
