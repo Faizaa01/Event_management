@@ -1,0 +1,104 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
+</head>
+<body class="bg-gray-100">
+    <!-- navbar -->
+    <nav class="fixed top-0 w-full z-50 bg-gray-900/60 backdrop-blur-sm">
+        <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+            <div class="relative flex h-24 items-center justify-between">
+                <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+                    <div class="flex items-center text-white">
+                    <i class="fa-solid fa-calendar-days text-white mr-6 text-2xl"></i>
+                    <div class="flex flex-col items-center leading-tight">
+                        <span class="capitalize text-xl font-bold">event</span>
+                        <span class="capitalize text-xl font-bold">Planner</span>
+                    </div>
+                    </div>
+                    <div class="hidden sm:ml-6 sm:block">
+                        <div class="flex space-x-4">
+                        <a href="{% url 'home' %}" class="{% if request.resolver_match.url_name == 'home' %}bg-gray-900 text-white{% else %}text-gray-300 hover:bg-gray-700 hover:text-white{% endif %} rounded-md px-3 py-2 text-md font-medium">
+                        Home</a>
+                        <a href="{% url 'dashboard' %}" class="{% if request.resolver_match.url_name == 'dashboard' %}bg-gray-900 text-white{% else %}text-gray-300 hover:bg-gray-700 hover:text-white{% endif %} rounded-md px-3 py-2 text-md font-medium">
+                        Dashboard</a>
+                        <a href="{% url 'create_event' %}" class="{% if request.resolver_match.url_name == 'Add-event' %}bg-gray-900 text-white{% else %}text-gray-300 hover:bg-gray-700 hover:text-white{% endif %} rounded-md px-3 py-2 text-md font-medium">
+                        Events</a>
+                        <a href="{% url 'create_participant' %}" class="{% if request.resolver_match.url_name == 'Add-participant' %}bg-gray-900 text-white{% else %}text-gray-300 hover:bg-gray-700 hover:text-white{% endif %} rounded-md px-3 py-2 text-md font-medium">
+                        Participants</a>
+                        <a href="{% url 'create_category' %}" class="{% if request.resolver_match.url_name == 'Add-category' %}bg-gray-900 text-white{% else %}text-gray-300 hover:bg-gray-700 hover:text-white{% endif %} rounded-md px-3 py-2 text-md font-medium">
+                        Categories</a>
+                    </div>
+                    </div>
+                </div>
+                <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+                    <button type="button" class="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden">
+                        <span class="absolute -inset-1.5"></span>
+                        <span class="sr-only">View notifications</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6">
+                            <path d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+<main class="">
+    {% block content %}
+    {% endblock %}
+</main>
+
+<!-- footer -->
+ <footer class="bg-gray-900 text-white">
+    <div class="mx-auto max-w-7xl px-6 py-16 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div class="col-span-1 md:col-span-2">
+                <p class="text-gray-300 text-sm max-w-md">
+                    Transform your business with powerful data analytics and insights. We help companies make smarter decisions through comprehensive data solutions.
+                </p>
+                <div class="flex space-x-6 mt-10">
+                    <i class="fa-brands fa-twitter fa-xl"></i>
+                    <i class="fa-brands fa-instagram fa-xl"></i>
+                    <i class="fa-brands fa-linkedin fa-xl"></i>
+                </div>
+            </div>
+            <div>
+                <h3 class="text-sm font-semibold text-white uppercase tracking-wider mb-4">Company</h3>
+                <ul class="space-y-3">
+                    <li><a href="#" class="text-gray-300 hover:text-white transition-colors text-sm">About Us</a></li>
+                    <li><a href="#" class="text-gray-300 hover:text-white transition-colors text-sm">Our Team</a></li>
+                    <li><a href="#" class="text-gray-300 hover:text-white transition-colors text-sm">Careers</a></li>
+                    <li><a href="#" class="text-gray-300 hover:text-white transition-colors text-sm">Contact</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-sm font-semibold text-white uppercase tracking-wider mb-4">Services</h3>
+                <ul class="space-y-3">
+                    <li><a href="#" class="text-gray-300 hover:text-white transition-colors text-sm">Data Analytics</a></li>
+                    <li><a href="#" class="text-gray-300 hover:text-white transition-colors text-sm">Business Intelligence</a></li>
+                    <li><a href="#" class="text-gray-300 hover:text-white transition-colors text-sm">Consulting</a></li>
+                    <li><a href="#" class="text-gray-300 hover:text-white transition-colors text-sm">Support</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="mt-12 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center">
+            <p class="text-gray-400 text-sm">© 2025 Event Planner. All rights reserved.</p>
+            <div class="flex space-x-6 mt-4 md:mt-0">
+                <a href="#" class="text-gray-400 hover:text-white transition-colors text-sm">Privacy Policy</a>
+                <a href="#" class="text-gray-400 hover:text-white transition-colors text-sm">Terms of Service</a>
+                <a href="#" class="text-gray-400 hover:text-white transition-colors text-sm">Cookie Policy</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>
+
