@@ -68,7 +68,6 @@
     {% for event in data %}
       <div class="max-w-6xl h-64 mx-auto bg-white rounded-lg shadow-lg overflow-hidden flex">
 
-        <!-- Event Image Section -->
         <div class="w-80 h-64 bg-gray-700 relative">
           <div class="absolute inset-0"
               style="background-image: url('{% static "img/2.jpg" %}'); background-size: cover;">
@@ -79,7 +78,6 @@
           </div>
         </div>
 
-        <!-- Event Content -->
         <div class="flex-1 p-8">
           <h2 class="text-3xl text-sky-900 mb-2 font-semibold">{{ event.name }}</h2>
           <p class="text-gray-600 leading-relaxed mb-2">
