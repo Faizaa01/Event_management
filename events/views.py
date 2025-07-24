@@ -9,7 +9,10 @@ from datetime import date
 
 
 def home(request):
-    events = Event.objects.select_related('category').prefetch_related('participants').all()
+    if request.user.is_authenticated:
+        events = Event.objects.select_related('category').prefetch_related('participants').all()
+    else:
+        events = None
     context = {'data': events, 'query': ''}
     return render(request, 'home.html', context)
 

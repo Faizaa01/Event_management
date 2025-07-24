@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth import login, logout
 from django.contrib import messages
-from users.forms import RegistrationForm
+from users.forms import RegistrationForm, LoginForm
 
 
 
@@ -23,19 +23,14 @@ def sign_up(request):
 
 
 def sign_in(request):
+    form = LoginForm()
     if request.method == 'POST':
-        form = AuthenticationForm(request, request.POST)
+        form = LoginForm(data=request.POST)
         if form.is_valid():
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-
-            user = authenticate(request, username=username, password=password)
-            if user is not None:
-                login(request, user)
-                return redirect('home')
-    else:
-        form = AuthenticationForm()
-    return render(request, 'Registration/login.html', {'form': form})
+            user = form.get_user()
+            login(request, user)
+            return redirect('home')
+    return render(request, 'registration/login.html', {'form': form})
 
 
 

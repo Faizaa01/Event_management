@@ -62,11 +62,11 @@
       <p class="text-xl text-gray-600">Discover amazing events happening near you</p>
     </div>
 
-{% if data %}
-  <div class="grid gap-10">
+{% if request.user.is_authenticated %}
+  {% if data %}
+    <div class="grid gap-10">
     {% for event in data %}
       <div class="max-w-6xl h-64 mx-auto bg-white rounded-lg shadow-lg overflow-hidden flex">
-
         <div class="w-80 h-64 bg-gray-700 relative">
           <div class="absolute inset-0"
               style="background-image: url('{{event.asset.url}}'); background-size: cover;">
@@ -76,12 +76,10 @@
             <div class="text-xs tracking-wider">{{ event.date|date:"F" }}</div>
           </div>
         </div>
-
+        
         <div class="flex-1 p-8">
           <h2 class="text-3xl text-sky-900 mb-2 font-semibold">{{ event.name }}</h2>
-          <p class="text-gray-600 leading-relaxed mb-2">
-            {{ event.description|truncatewords:30 }}
-          </p>
+          <p class="text-gray-600 leading-relaxed mb-2"> {{ event.description|truncatewords:30 }} </p>
 
           <div class="flex gap-10 justify-between">
             <div class="flex items-center gap-4">
@@ -102,7 +100,7 @@
                 <div class="text-gray-800 font-bold">{{ event.category.name }}</div>
               </div>
             </div>
-             <div class="flex items-center gap-4">
+              <div class="flex items-center gap-4">
               <div class="w-10 h-10 bg-indigo-400 rounded-full flex items-center justify-center text-white">
                 <i class="fa-solid fa-person-dress"></i>
               </div>
@@ -113,8 +111,7 @@
             </div>
             <div class="flex items-center p-8 bg-gray-50">
               <a href="{% url 'Event-details' event.id %}">
-                <button
-                  class="bg-indigo-900 border-2 border-gray-300 px-4 py-4 text-white font-bold text-sm tracking-wider rounded-lg hover:bg-gray-400 hover:text-black">
+                <button class="bg-indigo-900 border-2 border-gray-300 px-4 py-4 text-white font-bold text-sm tracking-wider rounded-lg hover:bg-gray-400 hover:text-black">
                   DETAILS
                 </button>
               </a>
@@ -123,12 +120,18 @@
         </div>
       </div>
     {% endfor %}
-  </div>
-    {% else %}
+    </div>
+  {% else %}
     <div class="text-center text-gray-500 text-lg mt-12">
         No events found.
     </div>
+  {% endif %}
+{% else %}
+  <div class="text-center text-gray-500 text-lg mt-12">
+    Please <a href="{% url 'sign_in' %}" class="text-blue-700 underline">log in</a> to see the events.
+  </div>
 {% endif %}
+
   </div>
 </section>
 
