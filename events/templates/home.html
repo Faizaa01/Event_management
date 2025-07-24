@@ -25,8 +25,6 @@
 
 
 
-
-
 {% comment %} Search {% endcomment %}
   <section class="bg-gradient-to-r from-indigo-800 via-purple-900 to-blue-700 py-20">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -53,8 +51,6 @@
 
 
 
-
-
 {% comment %} event lists {% endcomment %}
 <section class="py-16 bg-zinc-200">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -66,56 +62,46 @@
 {% if data %}
   <div class="grid gap-10">
     {% for event in data %}
-      <div class="max-w-6xl h-64 mx-auto bg-white rounded-lg shadow-lg overflow-hidden flex">
-
-        <div class="w-80 h-64 bg-gray-700 relative">
-          <div class="absolute inset-0"
-              style="background-image: url('{% static "img/2.jpg" %}'); background-size: cover;">
-          </div>
-          <div class="absolute bg-sky-800 text-white p-4 rounded text-center font-bold">
-            <div class="text-3xl leading-none mb-1">{{ event.date|date:"d" }}</div>
-            <div class="text-xs tracking-wider">{{ event.date|date:"F" }}</div>
+      <div class="max-w-6xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden flex flex-col sm:flex-row">
+        <div class="w-full sm:w-80 relative h-48 sm:h-auto flex-shrink-0">
+          <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('{% static "img/2.jpg" %}');"></div>
+          <div class="absolute top-4 left-4 bg-sky-800 text-white p-4 rounded text-center font-bold w-16 sm:w-20">
+            <div class="text-3xl sm:text-4xl leading-none mb-1">{{ event.date|date:"d" }}</div>
+            <div class="text-xs sm:text-sm tracking-wider">{{ event.date|date:"F" }}</div>
           </div>
         </div>
 
-        <div class="flex-1 p-8">
-          <h2 class="text-3xl text-sky-900 mb-2 font-semibold">{{ event.name }}</h2>
-          <p class="text-gray-600 leading-relaxed mb-2">
-            {{ event.description|truncatewords:30 }}
-          </p>
+        <div class="flex-1 p-4 sm:p-8 flex flex-col justify-between">
+          <div>
+            <h2 class="text-2xl sm:text-3xl text-sky-900 mb-2 font-semibold">{{ event.name }}</h2>
+            <p class="text-gray-600 leading-relaxed mb-4">{{ event.description|truncatewords:30 }}</p>
+          </div>
 
-          <div class="flex gap-10 justify-between">
-            <div class="flex items-center gap-4">
-              <div class="w-10 h-10 bg-violet-400 rounded-full flex items-center justify-center text-white">
-                <i class="fa-solid fa-location-dot"></i>
-              </div>
+          <div class="flex flex-wrap gap-4 sm:gap-8 items-center">
+            <div class="flex items-center gap-3 min-w-[120px]">
+              <div class="w-10 h-10 bg-violet-400 rounded-full flex items-center justify-center text-white"><i class="fa-solid fa-location-dot"></i></div>
               <div>
-                <div class="text-gray-400 text-sm mb-1">Location</div>
-                <div class="text-gray-800 font-bold">{{ event.location }}</div>
+                <div class="text-gray-400 text-xs">Location</div>
+                <div class="text-gray-800 font-bold truncate">{{ event.location }}</div>
               </div>
             </div>
-            <div class="flex items-center gap-4">
-              <div class="w-10 h-10 bg-blue-400 rounded-full flex items-center justify-center text-white">
-                <i class="fa-regular fa-file"></i>
-              </div>
+            <div class="flex items-center gap-3 min-w-[120px]">
+              <div class="w-10 h-10 bg-blue-400 rounded-full flex items-center justify-center text-white"><i class="fa-regular fa-file"></i></div>
               <div>
-                <div class="text-gray-400 text-sm mb-1">Category</div>
-                <div class="text-gray-800 font-bold">{{ event.category.name }}</div>
+                <div class="text-gray-400 text-xs">Category</div>
+                <div class="text-gray-800 font-bold truncate">{{ event.category.name }}</div>
               </div>
             </div>
-             <div class="flex items-center gap-4">
-              <div class="w-10 h-10 bg-indigo-400 rounded-full flex items-center justify-center text-white">
-                <i class="fa-solid fa-person-dress"></i>
-              </div>
+            <div class="flex items-center gap-3 min-w-[120px]">
+              <div class="w-10 h-10 bg-indigo-400 rounded-full flex items-center justify-center text-white"><i class="fa-solid fa-person-dress"></i></div>
               <div>
-                <div class="text-gray-400 text-sm mb-1">Participants</div>
+                <div class="text-gray-400 text-xs">Participants</div>
                 <div class="text-gray-800 font-bold">{{ event.participants.count }}</div>
               </div>
             </div>
-            <div class="flex items-center p-8 bg-gray-50">
+            <div class="w-full sm:w-auto flex justify-center sm:justify-start pt-3 sm:pt-0">
               <a href="{% url 'Event-details' event.id %}">
-                <button
-                  class="bg-indigo-900 border-2 border-gray-300 px-4 py-4 text-white font-bold text-sm tracking-wider rounded-lg hover:bg-gray-400 hover:text-black">
+                <button class="bg-indigo-900 border-2 border-gray-300 px-6 py-3 text-white font-bold text-sm tracking-wider rounded-lg hover:bg-gray-400 hover:text-black transition">
                   DETAILS
                 </button>
               </a>
