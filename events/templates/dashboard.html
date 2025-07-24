@@ -86,7 +86,9 @@
                 {% endif %}
             </h2>
         </div>
-        <div class="grid grid-cols-4 gap-4 p-4 bg-black rounded-lg mb-4 font-semibold text-gray-400">
+
+        <!-- Table Header -->
+        <div class="hidden sm:grid grid-cols-4 gap-4 p-4 bg-black rounded-lg mb-4 font-semibold text-gray-400 text-sm sm:text-base">
             <div>Event Name</div>
             <div>Date</div>
             <div>Location</div>
@@ -94,31 +96,41 @@
         </div>
         <!-- Events List -->
         <div class="space-y-4">
-            {% for event in events_list %}
-            <div class="grid grid-cols-4 gap-4 p-4 bg-gray-100 rounded-lg border-l-4 border-gray-700 items-center">
-                <div class="font-semibold text-gray-900">
-                    <i class="fa-regular fa-circle"></i>
-                    {{ event.name }}
-                </div>
-                <div class="font-semibold text-gray-900">
-                    <i class="fa-regular fa-clipboard"></i>
-                    {{ event.date }}
-                </div>
-                <div class="font-medium text-gray-900">
-                    <i class="fa-solid fa-location-dot"></i>
-                    {{ event.location }}
-                </div>
-                <div class="font-medium text-gray-900 flex items-center justify-between">
-                    {{ event.participants.count }}
-                    <a href="{% url 'Event-details' event.id %}" 
-                    class="ml-2 bg-gray-800 hover:bg-indigo-400 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
-                        Details
-                    </a>
-                </div>
+        {% for event in events_list %}
+        <div
+            class="bg-gray-100 rounded-lg border-l-4 border-gray-700 p-4 grid grid-cols-1 sm:grid-cols-4 gap-4 items-start sm:items-center text-sm sm:text-base">
+
+            <!-- Event Name -->
+            <div class="font-semibold text-gray-900 flex items-center space-x-2">
+            <i class="fa-regular fa-circle"></i>
+            <span>{{ event.name }}</span>
             </div>
-            {% empty %}
-                <p class="text-gray-400 text-sm">No events today.</p>
-            {% endfor %}
+
+            <!-- Date -->
+            <div class="font-semibold text-gray-900 flex items-center space-x-2">
+            <i class="fa-regular fa-clipboard"></i>
+            <span>{{ event.date }}</span>
+            </div>
+
+            <!-- Location -->
+            <div class="font-medium text-gray-900 flex items-center space-x-2 truncate">
+            <i class="fa-solid fa-location-dot"></i>
+            <span>{{ event.location }}</span>
+            </div>
+
+            <!-- Participants + Details Button -->
+            <div class="font-medium text-gray-900 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+            <span>{{ event.participants.count }}</span>
+            <a href="{% url 'Event-details' event.id %}"
+                class="bg-gray-800 hover:bg-indigo-400 text-white px-4 py-2 rounded-lg text-xs sm:text-sm font-medium transition-colors whitespace-nowrap">
+                Details
+            </a>
+            </div>
+
+        </div>
+        {% empty %}
+        <p class="text-gray-400 text-sm px-4">No events today.</p>
+        {% endfor %}
         </div>
     </div>
 </div>
