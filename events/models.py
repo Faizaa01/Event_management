@@ -10,6 +10,7 @@ class Category(models.Model):
 
 class Event(models.Model):
     name = models.CharField(max_length=200)
+    asset = models.ImageField(upload_to="event_images/", default="event_images/default.jpg")
     description = models.TextField()
     date = models.DateField()
     time = models.TimeField()
