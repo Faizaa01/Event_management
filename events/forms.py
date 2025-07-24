@@ -3,6 +3,10 @@ from events.models import Event, Participant, Category
 
 
 class StyledFormMixin:
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.apply_styled_widgets()
+
     default_class = "border-2 border-gray-100 w-full m-2 font-semibold rounded-sm shadow-sm focus:outline-none focus:border-rose-500 focus:ring-rose-500"
 
     def apply_styled_widgets(self):
@@ -50,10 +54,6 @@ class Eventform(StyledFormMixin, forms.ModelForm):
         }
 
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.apply_styled_widgets()
-
 
 class Participantform(StyledFormMixin, forms.ModelForm):
     class Meta:
@@ -63,9 +63,6 @@ class Participantform(StyledFormMixin, forms.ModelForm):
             'events': forms.CheckboxSelectMultiple(),
         }
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.apply_styled_widgets()
 
 
 class Categoryform(StyledFormMixin, forms.ModelForm):
@@ -76,8 +73,3 @@ class Categoryform(StyledFormMixin, forms.ModelForm):
             'description': forms.Textarea,
         }
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.apply_styled_widgets()
-
-        

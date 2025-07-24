@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="max-w-md mx-auto my-9 pt-24 bg-white p-12 rounded-lg shadow-lg">
+    <h2 class="text-3xl font-bold text-center text-gray-800 mb-6">Log In</h2>
+
+    {# Display non-field errors if any exist. This assumes your view passes a 'form' object with non_field_errors #}
+    {% if form.non_field_errors %}
+        <div class="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+            {% for error in form.non_field_errors %}
+                <p>{{ error }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <div>
+        <form method='POST' class="space-y-6">
+            {% csrf_token %}
+            <input type="text"
+                   placeholder="Enter your username"
+                   name="username"
+                   class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <input type="password"
+                   placeholder="Enter your password"
+                   name='password'
+                   class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded transition duration-200">Sign In</button>
+        </form>
+    </div>
+
+    <p class="mt-6 text-center text-gray-600">Don't have an account? <a href="{% url 'sign_up' %}" class="text-blue-600 hover:underline">Sign Up</a></p>
+</div>
+{% endblock content %}
