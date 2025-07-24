@@ -24,7 +24,7 @@ def sign_up(request):
 
 def sign_in(request):
     if request.method == 'POST':
-        form = AuthenticationForm(request, data=request.POST)
+        form = AuthenticationForm(request, request.POST)
         if form.is_valid():
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
@@ -32,12 +32,10 @@ def sign_in(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                messages.success(request, f"Welcome, {username}!")
                 return redirect('home')
-        messages.error(request, "Invalid username or password.")
     else:
         form = AuthenticationForm()
-    return render(request, 'Registration/login.html')
+    return render(request, 'Registration/login.html', {'form': form})
 
 
 
