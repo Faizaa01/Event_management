@@ -101,12 +101,10 @@
         <h2 class="text-3xl font-bold mb-6 text-gray-900">Participants</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {% for participant in participants %}
-                <a href="{% url 'update_participant' participant.id %}" class="block">
-                    <div class="bg-gray-50 p-4 rounded-lg border border-indigo-400 hover:bg-indigo-100 transition">
-                        <div class="text-lg font-semibold text-sky-800">{{ participant.name }}</div>
-                        <div class="text-sm text-gray-600">{{ participant.email }}</div>
-                    </div>
-                </a>
+                <div class="bg-gray-50 p-4 rounded-lg border border-indigo-400 hover:bg-indigo-100 transition">
+                    <div class="text-lg font-semibold text-sky-800">{{ participant.get_full_name|default:participant.username }}</div>
+                    <div class="text-sm text-gray-600">{{ participant.email }}</div>
+                </div>
             {% empty %}
                 <div class="text-gray-500 col-span-full">No participants yet.</div>
             {% endfor %}
