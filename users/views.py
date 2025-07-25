@@ -6,18 +6,23 @@ from users.forms import RegistrationForm, LoginForm
 
 
 
+
 def sign_up(request):
+    form = RegistrationForm()
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
-            user.set_password(form.cleaned_data['password1'])
+            user.set_password(form.cleaned_data.get('password1'))
+            user.is_active = False
             user.save()
-            messages.success(request, 'Account created successfully. Please login.')
+            messages.success(
+                request, 'A Confirmation mail sent. Please check your email')
             return redirect('sign_in')
-    else:
-        form = RegistrationForm()
-    return render(request, 'registration/signup.html', {'form': form})
+
+        else:
+            print("Form is not valid")
+    return render(request, 'Registration/signup.html', {"form": form})
 
 
 
