@@ -1,11 +1,14 @@
 from pathlib import Path
 import dj_database_url
+from decouple import config
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-SECRET_KEY = 'django-insecure-mx4ljcu2_31^*bn8isx+p_0pe)-6#+&td$j4!-!8s(l%j*d&4u'
+
+
+SECRET_KEY = config('SECRET_KEY')
 
 
 DEBUG = True
@@ -144,3 +147,17 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = config('EMAIL_HOST')
+EMAIL_USE_TLS = config('EMAIL_USE_TLS', cast=bool)
+EMAIL_PORT = config('EMAIL_PORT')
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+
+
+FRONTEND_URL = 'http://127.0.0.1:8000'
+
+
