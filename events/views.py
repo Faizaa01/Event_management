@@ -1,5 +1,4 @@
 from django.shortcuts import render, redirect,get_object_or_404
-from django.http import HttpResponse
 from events.models import Event, Category
 from events.forms import Eventform, Categoryform
 from django.db.models import Q, Count
@@ -102,7 +101,6 @@ def create_event(request):
         form = Eventform(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            messages.success(request, "Event Created Successfully.")
             return redirect('create_event')
     context = {"form": form, "title": "Add Event"}
     return render(request, "form.html", context)
@@ -114,7 +112,6 @@ def update_event(request, id):
         form = Eventform(request.POST, request.FILES, instance=event)
         if form.is_valid():
             form.save()
-            messages.success(request,"Event Updated Successfully.")
             return redirect('Event-details', id=event.id)
     else:
         form = Eventform(instance=event)
@@ -128,7 +125,6 @@ def delete_event(request, id):
     if request.method == "POST":
         event = Event.objects.get(id=id)
         event.delete()
-        messages.success(request, "Event deleted successfully")
         return redirect('home')
     messages.error(request, "Invalid request")
     return redirect('home')
@@ -152,7 +148,6 @@ def create_category(request):
         form = Categoryform(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, "Category Created Successfully.")
             return redirect('create_category')
     context = {"form": form, "title": "Add Category"}
     return render(request, "form.html", context)
@@ -164,7 +159,6 @@ def update_category(request, id):
         form = Categoryform(request.POST, instance=category)
         if form.is_valid():
             form.save()
-            messages.success(request, "Category Updated Successfully.")
             return redirect('list_categories')
     else:
         form = Categoryform(instance=category)
@@ -176,7 +170,6 @@ def delete_category(request, id):
     if request.method == "POST":
         category = Category.objects.get(id=id)
         category.delete()
-        messages.success(request, "Category Deleted Successfully.")
     else:
         messages.error(request, "Invalid Request")
     return redirect('list_categories')

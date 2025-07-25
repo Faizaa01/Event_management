@@ -4,7 +4,7 @@ from django.core.mail import send_mail
 from events.models import Event
 
 @receiver(m2m_changed, sender=Event.participants.through)
-def notify_user_on_rsvp(sender, instance, action, **kwargs):
+def rsvp_activation_mail(sender, instance, action, **kwargs):
     if action == 'post_add':
         participant_emails = [user.email for user in instance.participants.all()]
         # print("RSVP email check....", participant_emails)

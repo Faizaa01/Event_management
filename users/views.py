@@ -1,8 +1,8 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth import login, logout
-from django.contrib import messages
+from django.shortcuts import render, redirect, HttpResponse
+from django.contrib.auth.tokens import default_token_generator
 from users.forms import RegistrationForm, LoginForm
+from django.contrib.auth import login, logout
+from django.contrib.auth.models import User
 
 
 
@@ -16,8 +16,6 @@ def sign_up(request):
             user.set_password(form.cleaned_data.get('password1'))
             user.is_active = False
             user.save()
-            messages.success(
-                request, 'A Confirmation mail sent. Please check your email')
             return redirect('sign_in')
 
         else:
@@ -42,5 +40,19 @@ def sign_in(request):
 
 def sign_out(request):
     logout(request)
-    messages.info(request, "You have been logged out.")
     return redirect('sign_in')
+
+
+
+def activate_user(request, user_id, token):
+    try:
+        user = User.objects.get(id=user_id)
+        if default_token_generator.check_token(user, token):
+            user.is_active = True
+            user.save()
+            return redirect('sign_in')
+        else:
+            return HttpResponse('Invalid Id or token')
+
+    except User.DoesNotExist:
+        return HttpResponse('User not found')
