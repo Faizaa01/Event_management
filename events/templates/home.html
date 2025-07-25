@@ -62,76 +62,102 @@
       <p class="text-xl text-gray-600">Discover amazing events happening near you</p>
     </div>
 
-{% if request.user.is_authenticated %}
-  {% if data %}
-    <div class="grid gap-10">
-    {% for event in data %}
-      <div class="max-w-6xl h-64 mx-auto bg-white rounded-lg shadow-lg overflow-hidden flex">
-        <div class="w-80 h-64 bg-gray-700 relative">
-          <div class="absolute inset-0"
-              style="background-image: url('{{event.asset.url}}'); background-size: cover;">
-          </div>
-          <div class="absolute bg-sky-800 text-white p-4 rounded text-center font-bold">
-            <div class="text-3xl leading-none mb-1">{{ event.date|date:"d" }}</div>
-            <div class="text-xs tracking-wider">{{ event.date|date:"F" }}</div>
-          </div>
-        </div>
-        
-        <div class="flex-1 p-8">
-          <h2 class="text-3xl text-sky-900 mb-2 font-semibold">{{ event.name }}</h2>
-          <p class="text-gray-600 leading-relaxed mb-2"> {{ event.description|truncatewords:30 }} </p>
+    {% if request.user.is_authenticated %}
+      {% if data %}
+        <!-- Grid: 1 col on small, 2 cols on md, optional 3 cols on lg -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+          {% for event in data %}
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden flex flex-col max-w-full h-auto mx-auto">
 
-          <div class="flex gap-10 justify-between">
-            <div class="flex items-center gap-4">
-              <div class="w-10 h-10 bg-violet-400 rounded-full flex items-center justify-center text-white">
-                <i class="fa-solid fa-location-dot"></i>
+              <!-- Image on top -->
+              <div class="w-full h-64 bg-gray-700 relative">
+                <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('{{event.asset.url}}');"></div>
+                <div class="absolute top-2 left-2 bg-sky-800 text-white p-4 rounded text-center font-bold">
+                  <div class="text-3xl leading-none mb-1">{{ event.date|date:"d" }}</div>
+                  <div class="text-xs tracking-wider">{{ event.date|date:"F" }}</div>
+                </div>
               </div>
-              <div>
-                <div class="text-gray-400 text-sm mb-1">Location</div>
-                <div class="text-gray-800 font-bold">{{ event.location }}</div>
+
+              <!-- Content below image -->
+              <div class="p-6 flex flex-col">
+                <h2 class="text-3xl text-sky-900 mb-2 font-semibold">{{ event.name }}</h2>
+                <p class="text-gray-600 leading-relaxed mb-4">{{ event.description|truncatewords:20 }}</p>
+
+                <!-- 3 info blocks beneath description -->
+                <div class="flex flex-wrap gap-8 mb-6 justify-between">
+                  <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 bg-violet-400 rounded-full flex items-center justify-center text-white">
+                      <i class="fa-solid fa-location-dot"></i>
+                    </div>
+                    <div>
+                      <div class="text-gray-400 text-sm mb-1">Location</div>
+                      <div class="text-gray-800 font-bold">{{ event.location }}</div>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 bg-blue-400 rounded-full flex items-center justify-center text-white">
+                      <i class="fa-regular fa-file"></i>
+                    </div>
+                    <div>
+                      <div class="text-gray-400 text-sm mb-1">Category</div>
+                      <div class="text-gray-800 font-bold">{{ event.category.name }}</div>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 bg-indigo-400 rounded-full flex items-center justify-center text-white">
+                      <i class="fa-solid fa-person-dress"></i>
+                    </div>
+                    <div>
+                      <div class="text-gray-400 text-sm mb-1">Participants</div>
+                      <div class="text-gray-800 font-bold">{{ event.participants.count }}</div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Buttons below info -->
+                <div class="flex flex-wrap gap-4 justify-end bg-gray-50 p-4 rounded-lg">
+                  <a href="{% url 'Event-details' event.id %}">
+                    <button
+                      class="bg-indigo-900 border-2 border-gray-300 px-4 py-2 text-white font-bold text-sm tracking-wider rounded-lg hover:bg-gray-400 hover:text-black"
+                      type="button">
+                      DETAILS
+                    </button>
+                  </a>
+
+                  {% if user.is_authenticated %}
+                    {% if user in event.participants.all %}
+                      <button
+                        class="bg-black border-2 border-gray-300 py-2 px-6 text-white font-bold text-sm tracking-wider rounded-lg cursor-not-allowed"
+                        type="button" disabled>
+                        RSVP Done
+                      </button>
+                    {% else %}
+                      <form method="post" action="{% url 'rsvp_event' event.id %}">
+                        {% csrf_token %}
+                        <button
+                          class="bg-violet-500 border-2 border-gray-300 px-4 py-2 text-white font-bold text-sm tracking-wider rounded-lg hover:bg-gray-400 hover:text-black"
+                          type="submit">
+                          RSVP
+                        </button>
+                      </form>
+                    {% endif %}
+                  {% endif %}
+                </div>
+
               </div>
             </div>
-            <div class="flex items-center gap-4">
-              <div class="w-10 h-10 bg-blue-400 rounded-full flex items-center justify-center text-white">
-                <i class="fa-regular fa-file"></i>
-              </div>
-              <div>
-                <div class="text-gray-400 text-sm mb-1">Category</div>
-                <div class="text-gray-800 font-bold">{{ event.category.name }}</div>
-              </div>
-            </div>
-              <div class="flex items-center gap-4">
-              <div class="w-10 h-10 bg-indigo-400 rounded-full flex items-center justify-center text-white">
-                <i class="fa-solid fa-person-dress"></i>
-              </div>
-              <div>
-                <div class="text-gray-400 text-sm mb-1">Participants</div>
-                <div class="text-gray-800 font-bold">{{ event.participants.count }}</div>
-              </div>
-            </div>
-            <div class="flex items-center p-8 bg-gray-50">
-              <a href="{% url 'Event-details' event.id %}">
-                <button class="bg-indigo-900 border-2 border-gray-300 px-4 py-4 text-white font-bold text-sm tracking-wider rounded-lg hover:bg-gray-400 hover:text-black">
-                  DETAILS
-                </button>
-              </a>
-            </div>
-          </div>
+          {% endfor %}
         </div>
+      {% else %}
+        <div class="text-center text-gray-500 text-lg mt-12">
+          No events found.
+        </div>
+      {% endif %}
+    {% else %}
+      <div class="text-center text-gray-500 text-lg mt-12">
+        Please <a href="{% url 'sign_in' %}" class="text-blue-700 underline">log in</a> to see the events.
       </div>
-    {% endfor %}
-    </div>
-  {% else %}
-    <div class="text-center text-gray-500 text-lg mt-12">
-        No events found.
-    </div>
-  {% endif %}
-{% else %}
-  <div class="text-center text-gray-500 text-lg mt-12">
-    Please <a href="{% url 'sign_in' %}" class="text-blue-700 underline">log in</a> to see the events.
-  </div>
-{% endif %}
-
+    {% endif %}
   </div>
 </section>
 

@@ -55,16 +55,6 @@ class Eventform(StyledFormMixin, forms.ModelForm):
 
 
 
-# class Participantform(StyledFormMixin, forms.ModelForm):
-#     class Meta:
-#         model = Participant
-#         fields = ['name', 'email', 'events']
-#         widgets = {
-#             'events': forms.CheckboxSelectMultiple(),
-#         }
-
-
-
 class Categoryform(StyledFormMixin, forms.ModelForm):
     class Meta:
         model = Category

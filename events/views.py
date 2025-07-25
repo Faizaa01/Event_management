@@ -6,6 +6,7 @@ from django.db.models import Q, Count
 from django.contrib import messages
 from datetime import date
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 
 
 
@@ -16,6 +17,24 @@ def home(request):
         events = None
     context = {'data': events, 'query': ''}
     return render(request, 'home.html', context)
+
+
+
+# RSVP
+
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404, redirect
+from django.contrib import messages
+from .models import Event
+
+@login_required
+def rsvp_event(request, event_id):
+    event = Event.objects.get(id=event_id)
+    if request.user not in event.participants.all():
+        event.participants.add(request.user)
+    return redirect('home')
+
+
 
 
 # Dashboard
@@ -113,56 +132,6 @@ def delete_event(request, id):
         return redirect('home')
     messages.error(request, "Invalid request")
     return redirect('home')
-
-
-# Participant
-
-# def list_participants(request):
-#     data = Participant.objects.prefetch_related('events').all()
-#     context = {
-#         'data': data,
-#         'title': 'Participants List'
-#     }
-#     return render(request, 'list.html', context)
-
-
-# def create_participant(request):
-#     form = Participantform()
-#     if request.method == "POST":
-#         form = Participantform(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             messages.success(request, "Participant Created Successfully.")
-#             return redirect('create_participant')
-#     context = {"form": form, "title": "Add Participant"}
-#     return render(request, "form.html", context)
-
-
-# def update_participant(request, id):
-#     participant = Participant.objects.get(id=id)
-#     if request.method == 'POST':
-#         form = Participantform(request.POST, instance=participant)
-#         if form.is_valid():
-#             form.save()
-#             messages.success(request, "Participant Updated Successfully.")
-#             if participant.events.exists():
-#                 return redirect('Event-details', id=participant.events.first().id)
-#             else:
-#                 return redirect('list_participants')
-#     else:
-#         form = Participantform(instance=participant)
-#     context = {"form": form, "title": "Update Participant"}
-#     return render(request, "form.html", context)
-
-
-# def delete_participant(request, id):
-#     if request.method == "POST":
-#         participant = Participant.objects.get(id=id)
-#         participant.delete()
-#         messages.success(request, "Participant Deleted Successfully.")
-#     else:
-#         messages.error(request, "Invalid Request")
-#     return redirect('list_participants')
 
 
 
