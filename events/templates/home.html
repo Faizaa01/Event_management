@@ -52,70 +52,102 @@
 
 
 {% comment %} event lists {% endcomment %}
-<section class="py-16 bg-zinc-200">
+<section class="py-16 bg-indigo-50">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="mb-12">
-      <h2 class="text-4xl font-bold text-gray-800 mb-4">Event Lists</h2>
-      <p class="text-xl text-gray-600">Discover amazing events happening near you</p>
+      <h2 class="text-4xl font-bold text-black mb-4">Event Lists</h2>
+      <p class="text-xl text-gray-700">Discover amazing events happening near you</p>
     </div>
-    {% if data %}
-      <div class="grid gap-10">
-        {% for event in data %}
-          <div class="max-w-6xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden flex flex-col sm:flex-row">
-            <div class="w-full sm:w-80 relative h-48 sm:h-auto flex-shrink-0">
-              <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('{% static "img/2.jpg" %}');"></div>
-              <div class="absolute top-4 left-4 bg-sky-800 text-white p-4 rounded text-center font-bold w-16 sm:w-20">
-                <div class="text-3xl sm:text-4xl leading-none mb-1">{{ event.date|date:"d" }}</div>
-                <div class="text-xs sm:text-sm tracking-wider">{{ event.date|date:"F" }}</div>
-              </div>
-            </div>
 
-            <div class="flex-1 p-4 sm:p-8 flex flex-col justify-between">
-              <div>
-                <h2 class="text-2xl sm:text-3xl text-sky-900 mb-2 font-semibold">{{ event.name }}</h2>
-                <p class="text-gray-600 leading-relaxed mb-4">{{ event.description|truncatewords:30 }}</p>
+    {% if request.user.is_authenticated %}
+      {% if data %}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+          {% for event in data %}
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden flex flex-col max-w-full h-auto mx-auto">
+              <div class="w-full h-64 bg-gray-700 relative">
+                <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('{{event.asset.url}}');"></div>
+                <div class="absolute top-2 left-2 bg-sky-800 text-white p-4 rounded text-center font-bold">
+                  <div class="text-3xl leading-none mb-1">{{ event.date|date:"d" }}</div>
+                  <div class="text-xs tracking-wider">{{ event.date|date:"F" }}</div>
+                </div>
               </div>
 
-              <div class="flex flex-wrap gap-4 sm:gap-8 items-center">
-                <div class="flex items-center gap-3 min-w-[120px]">
-                  <div class="w-10 h-10 bg-violet-400 rounded-full flex items-center justify-center text-white"><i class="fa-solid fa-location-dot"></i></div>
-                  <div>
-                    <div class="text-gray-400 text-xs">Location</div>
-                    <div class="text-gray-800 font-bold truncate">{{ event.location }}</div>
+              <div class="p-6 flex flex-col">
+                <h2 class="text-3xl text-sky-900 mb-2 font-semibold">{{ event.name }}</h2>
+                <p class="text-gray-600 leading-relaxed mb-4">{{ event.description|truncatewords:20 }}</p>
+                <div class="flex flex-wrap gap-8 mb-6 justify-between">
+                  <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 bg-violet-400 rounded-full flex items-center justify-center text-white">
+                      <i class="fa-solid fa-location-dot"></i>
+                    </div>
+                    <div>
+                      <div class="text-gray-400 text-sm mb-1">Location</div>
+                      <div class="text-gray-800 font-bold">{{ event.location }}</div>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 bg-blue-400 rounded-full flex items-center justify-center text-white">
+                      <i class="fa-regular fa-file"></i>
+                    </div>
+                    <div>
+                      <div class="text-gray-400 text-sm mb-1">Category</div>
+                      <div class="text-gray-800 font-bold">{{ event.category.name }}</div>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 bg-indigo-400 rounded-full flex items-center justify-center text-white">
+                      <i class="fa-solid fa-person-dress"></i>
+                    </div>
+                    <div>
+                      <div class="text-gray-400 text-sm mb-1">Participants</div>
+                      <div class="text-gray-800 font-bold">{{ event.participants.count }}</div>
+                    </div>
                   </div>
                 </div>
-                <div class="flex items-center gap-3 min-w-[120px]">
-                  <div class="w-10 h-10 bg-blue-400 rounded-full flex items-center justify-center text-white"><i class="fa-regular fa-file"></i></div>
-                  <div>
-                    <div class="text-gray-400 text-xs">Category</div>
-                    <div class="text-gray-800 font-bold truncate">{{ event.category.name }}</div>
-                  </div>
-                </div>
-                <div class="flex items-center gap-3 min-w-[120px]">
-                  <div class="w-10 h-10 bg-indigo-400 rounded-full flex items-center justify-center text-white"><i class="fa-solid fa-person-dress"></i></div>
-                  <div>
-                    <div class="text-gray-400 text-xs">Participants</div>
-                    <div class="text-gray-800 font-bold">{{ event.participants.count }}</div>
-                  </div>
-                </div>
-                <div class="w-full sm:w-auto flex justify-center sm:justify-start pt-3 sm:pt-0">
+
+                <div class="flex flex-wrap gap-4 justify-end bg-gray-50 p-4 rounded-lg">
                   <a href="{% url 'Event-details' event.id %}">
-                    <button class="bg-indigo-900 border-2 border-gray-300 px-6 py-3 text-white font-bold text-sm tracking-wider rounded-lg hover:bg-gray-400 hover:text-black transition">
+                    <button
+                      class="bg-indigo-900 border-2 border-gray-300 px-4 py-2 text-white font-bold text-sm tracking-wider rounded-lg hover:bg-gray-400 hover:text-black"
+                      type="button">
                       DETAILS
                     </button>
                   </a>
+
+                  {% if user.is_authenticated and user.groups.all.0.name == 'Participant' %}
+                    {% if user in event.participants.all %}
+                      <button
+                        class="bg-black border-2 border-gray-300 py-2 px-6 text-white font-bold text-sm tracking-wider rounded-lg cursor-not-allowed"
+                        type="button" disabled>
+                        RSVP Done
+                      </button>
+                    {% else %}
+                      <form method="post" action="{% url 'rsvp_event' event.id %}">
+                        {% csrf_token %}
+                        <button
+                          class="bg-violet-500 border-2 border-gray-300 px-4 py-2 text-white font-bold text-sm tracking-wider rounded-lg hover:bg-gray-400 hover:text-black"
+                          type="submit">
+                          RSVP
+                        </button>
+                      </form>
+                    {% endif %}
+                  {% endif %}
                 </div>
+
               </div>
             </div>
-          </div>
-        {% endfor %}
-      </div>
-        {% else %}
-        <div class="text-center text-gray-500 text-lg mt-12">
-            No events found.
+          {% endfor %}
         </div>
+      {% else %}
+        <div class="text-center text-gray-500 text-lg mt-12">
+          No events found.
+        </div>
+      {% endif %}
+    {% else %}
+      <div class="text-center text-gray-500 text-lg mt-12">
+        Please <a href="{% url 'sign_in' %}" class="text-blue-700 underline">log in</a> to see the events.
+      </div>
     {% endif %}
-
   </div>
 </section>
 

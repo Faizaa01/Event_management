@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container mx-auto p-10 pt-28 bg-violet-200">
+    <div class="overflow-x-auto">
+      <table class="min-w-full bg-gray-50 shadow-md rounded-lg overflow-hidden">
+        <thead class="bg-gray-100">
+          <tr>
+            <th class="bg-purple-900 px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider"> Number </th>
+            <th class="bg-purple-800 px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider"> Username </th>
+            <th class="bg-purple-700 px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider"> Email </th>
+            <th class="bg-purple-600 px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider"> User ID </th>
+            <th class="bg-purple-500 px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider"> Current Role </th>
+            <th class="bg-purple-400 px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider"> Action </th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-200">
+            {% for user in users %}
+                <tr class="hover:bg-gray-50">
+                    <td class="px-4 py-4 whitespace-nowrap">{{forloop.counter}}</td>
+                    <td class="px-4 py-4 whitespace-nowrap">{{user.first_name}} {{user.last_name}}</td>
+                    <td class="px-4 py-4 whitespace-nowrap">{{user.email}}</td>
+                    <td class="px-4 py-4 whitespace-nowrap">{{user.id}}</td>
+                    <td class="px-4 py-4 whitespace-nowrap">{{user.group_name}}</td>
+                    <td class="px-4 py-4 whitespace-nowrap">
+                    <a
+                        href="{% url 'assign-role' user.id %}"
+                        class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+                    >
+                        Change Role
+                    </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            
+        </tbody>
+      </table>
+    </div>
+
+      <div class="flex flex-col sm:flex-row justify-end gap-3 mt-6 sm:px-0">
+        <a href="{% url 'create_group' %}"
+          class="bg-cyan-950 hover:bg-neutral-500 text-white px-8 py-2 rounded text-sm font-medium text-center">
+          + Create Group
+        </a>
+        <a href="{% url 'group_list' %}"
+          class="bg-cyan-950 hover:bg-neutral-500 text-white px-8 py-2 rounded text-sm font-medium text-center">
+          Group List
+        </a>
+      </div>
+
+  </div>
+  
+{% endblock content %}
+
