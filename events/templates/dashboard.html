@@ -8,19 +8,21 @@
         <!-- Total Participants -->
         {% if role == 'Participant' %}
             <!-- RSVP Events (for Participants) -->
-            <div class="relative rounded-lg p-10 shadow-lg cursor-pointer transform transition-all duration-200 hover:scale-105 overflow-hidden">
-                <div class="absolute inset-0 bg-cover bg-center blur-sm"
-                    style="background-image: url('https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=500');">
-                </div>
-                <div class="absolute inset-0 bg-black bg-opacity-40"></div>
-                <div class="relative z-10 flex items-center justify-between">
-                    <div>
-                        <p class="text-white text-lg font-medium opacity-90 drop-shadow-lg">RSVP Events</p>
-                        <p class="text-white text-3xl font-bold mt-2 drop-shadow-lg">{{ rsvp_events }}</p>
+             <a href="{% url 'dashboard' %}?type=rsvp" class="block">
+                <div class="relative rounded-lg p-10 shadow-lg cursor-pointer transform transition-all duration-200 hover:scale-105 overflow-hidden">
+                    <div class="absolute inset-0 bg-cover bg-center blur-sm"
+                        style="background-image: url('https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=500');">
                     </div>
-                    <i data-lucide="bookmark-check" class="text-white h-8 w-8 opacity-90 drop-shadow-lg"></i>
+                    <div class="absolute inset-0 bg-black bg-opacity-40"></div>
+                    <div class="relative z-10 flex items-center justify-between">
+                        <div>
+                            <p class="text-white text-lg font-medium opacity-90 drop-shadow-lg">RSVP Events</p>
+                            <p class="text-white text-3xl font-bold mt-2 drop-shadow-lg">{{ rsvp_events }}</p>
+                        </div>
+                        <i data-lucide="bookmark-check" class="text-white h-8 w-8 opacity-90 drop-shadow-lg"></i>
+                    </div>
                 </div>
-            </div>
+            </a>
         {% else %}
             <!-- Total Participants (for Admin/Organizer) -->
         <a href="{% url 'participants_list' %}" class="block">
@@ -90,12 +92,6 @@
                 </div>
             </div>
         </a>
-        <!--RSVP events -->
-        {% if role == 'Participant' %}
-            <a href="{% url 'dashboard' %}?type=rsvp" class="bg-indigo-600 hover:bg-indigo-800 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
-                My RSVP Events
-            </a>
-        {% endif %}
 
     </div>
 

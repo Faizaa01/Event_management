@@ -124,7 +124,7 @@
                     </button>
                   </a>
 
-                  {% if user.is_authenticated %}
+                  {% if user.is_authenticated and user.groups.all.0.name == 'Participant' %}
                     {% if user in event.participants.all %}
                       <button
                         class="bg-black border-2 border-gray-300 py-2 px-6 text-white font-bold text-sm tracking-wider rounded-lg cursor-not-allowed"

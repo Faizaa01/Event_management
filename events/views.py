@@ -33,7 +33,7 @@ def rsvp_event(request, event_id):
     event = Event.objects.get(id=event_id)
     if request.user not in event.participants.all():
         event.participants.add(request.user)
-    return redirect('home')
+    return redirect('Event-details', id=event_id)
 
 
 
@@ -100,7 +100,6 @@ def dashboard(request):
 
 
 # Search
-@login_required
 def search_events(request):
     query = request.GET.get('query', '')
     if query:
@@ -122,7 +121,7 @@ def event_details(request, id):
     }
     return render(request, 'event_details.html', context)
 
-@permission_required("events.create_event", login_url='no-permission')
+@permission_required("events.add_event", login_url='no-permission')
 def create_event(request):
     form = Eventform()
     if request.method == "POST":
@@ -171,18 +170,45 @@ def participants_list(request):
 
     return render(request, 'admin/participants_list.html', {'users': users})
 
+
+# participants
+
+@user_passes_test(is_admin, login_url='no-permission')
+def list_participants(request):
+    participants = User.objects.filter(groups__name='Participant').prefetch_related('rsvp_events').distinct()
+    context = {
+        'data': participants,
+        'title': 'Participants List'
+    }
+    return render(request, 'list.html', context)
+
+
+
+@permission_required("events.delete_participant", login_url='no-permission')
+def delete_participant(request, id):
+    if request.method == "POST":
+        participant = get_object_or_404(User, id=id, groups__name='Participant')
+        participant.delete()
+        messages.success(request, "Participant deleted successfully.")
+    else:
+        messages.error(request, "Invalid request.")
+    return redirect('list_participants')
+
+
+
+
 # Category
 
-# def list_categories(request):
-#     data = Category.objects.all()
-#     context = {
-#         'data': data,
-#         'title': 'Category List'
-#     }
-#     return render(request, 'list.html', context)
+def list_categories(request):
+    data = Category.objects.all()
+    context = {
+        'data': data,
+        'title': 'Category List'
+    }
+    return render(request, 'list.html', context)
 
 
-@permission_required("events.create_category", login_url='no-permission')
+@permission_required("events.add_category", login_url='no-permission')
 def create_category(request):
     form = Categoryform()
     if request.method == "POST":

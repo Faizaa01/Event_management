@@ -1,5 +1,6 @@
 from django import forms
 from events.models import Event, Category
+from django.contrib.auth.models import User, Group
 
 
 class StyledFormMixin:
@@ -53,6 +54,14 @@ class Eventform(StyledFormMixin, forms.ModelForm):
             'category': forms.Select,
             'participants': forms.CheckboxSelectMultiple,
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        try:
+            participant_group = Group.objects.get(name='Participant')
+            self.fields['participants'].queryset = User.objects.filter(groups=participant_group)
+        except Group.DoesNotExist:
+            self.fields['participants'].queryset = User.objects.none()
 
 
 

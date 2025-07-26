@@ -24,18 +24,34 @@
                     </div>
                     <div class="hidden sm:ml-6 sm:block">
                         <div class="flex space-x-4">
-                        <a href="{% url 'home' %}" class="{% if request.resolver_match.url_name == 'home' %}bg-gray-900 text-white{% else %}text-gray-300 hover:bg-gray-700 hover:text-white{% endif %} rounded-md px-3 py-2 text-md font-medium">
-                        Home</a>
-                        <a href="{% url 'dashboard' %}" class="{% if request.resolver_match.url_name == 'dashboard' %}bg-gray-900 text-white{% else %}text-gray-300 hover:bg-gray-700 hover:text-white{% endif %} rounded-md px-3 py-2 text-md font-medium">
-                        Dashboard</a>
-                        <a href="{% url 'create_event' %}" class="{% if request.resolver_match.url_name == 'Add-event' %}bg-gray-900 text-white{% else %}text-gray-300 hover:bg-gray-700 hover:text-white{% endif %} rounded-md px-3 py-2 text-md font-medium">
-                        Events</a>
-                        <a href="" class="{% if request.resolver_match.url_name == 'Add-participant' %}bg-gray-900 text-white{% else %}text-gray-300 hover:bg-gray-700 hover:text-white{% endif %} rounded-md px-3 py-2 text-md font-medium">
-                        Contact</a>
-                        <a href="" class="{% if request.resolver_match.url_name == 'Add-category' %}bg-gray-900 text-white{% else %}text-gray-300 hover:bg-gray-700 hover:text-white{% endif %} rounded-md px-3 py-2 text-md font-medium">
-                        About</a>
+                            <a href="{% url 'home' %}" class="{% if request.resolver_match.url_name == 'home' %}bg-gray-900 text-white{% else %}text-gray-300 hover:bg-gray-700 hover:text-white{% endif %} rounded-md px-3 py-2 text-md font-medium">
+                                Home
+                            </a>
+                            <a href="{% url 'dashboard' %}" class="{% if request.resolver_match.url_name == 'dashboard' %}bg-gray-900 text-white{% else %}text-gray-300 hover:bg-gray-700 hover:text-white{% endif %} rounded-md px-3 py-2 text-md font-medium">
+                                Dashboard
+                            </a>
+                            <a href="{% url 'create_event' %}" class="{% if request.resolver_match.url_name == 'Add-event' %}bg-gray-900 text-white{% else %}text-gray-300 hover:bg-gray-700 hover:text-white{% endif %} rounded-md px-3 py-2 text-md font-medium">
+                                Events
+                            </a>
+
+                            {% if request.user.groups.first.name == 'Participant' %}
+                                <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-md font-medium">
+                                    Contact
+                                </a>
+                                <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-md font-medium">
+                                    About
+                                </a>
+                            {% elif request.user.groups.first.name == 'Organizer' or request.user.groups.first.name == 'Admin' %}
+                                <a href="{% url 'list_participants' %}" class="{% if request.resolver_match.url_name == 'Add-participant' %}bg-gray-900 text-white{% else %}text-gray-300 hover:bg-gray-700 hover:text-white{% endif %} rounded-md px-3 py-2 text-md font-medium">
+                                    Participants
+                                </a>
+                                <a href="{% url 'list_categories' %}" class="{% if request.resolver_match.url_name == 'Add-category' %}bg-gray-900 text-white{% else %}text-gray-300 hover:bg-gray-700 hover:text-white{% endif %} rounded-md px-3 py-2 text-md font-medium">
+                                    Categories
+                                </a>
+                            {% endif %}
+                        </div>
                     </div>
-                    </div>
+
                 </div>
                 <div class="absolute inset-y-0 right-0 flex items-center gap-3 pr-4 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                     {% if request.user.is_authenticated %}

@@ -28,8 +28,11 @@ def sign_up(request):
             user.set_password(form.cleaned_data.get('password1'))
             user.is_active = False
             user.save()
-            return redirect('sign_in')
+            
+            participant_group, created = Group.objects.get_or_create(name='Participant')
+            user.groups.add(participant_group)
 
+            return redirect('sign_in')
         else:
             print("Form is not valid")
     return render(request, 'Registration/signup.html', {"form": form})
