@@ -7,7 +7,6 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:px-10 m-8 p-8">
         <!-- Total Participants -->
         {% if role == 'Participant' %}
-            <!-- RSVP Events (for Participants) -->
              <a href="{% url 'dashboard' %}?type=rsvp" class="block">
                 <div class="relative rounded-lg p-10 shadow-lg cursor-pointer transform transition-all duration-200 hover:scale-105 overflow-hidden">
                     <div class="absolute inset-0 bg-cover bg-center blur-sm"
@@ -24,7 +23,6 @@
                 </div>
             </a>
         {% else %}
-            <!-- Total Participants (for Admin/Organizer) -->
         <a href="{% url 'participants_list' %}" class="block">
             <div class="relative rounded-lg p-10 shadow-lg cursor-pointer transform transition-all duration-200 hover:scale-105 overflow-hidden" id="stat-total">
                 <div class="absolute inset-0 bg-cover bg-center blur-sm"
@@ -96,57 +94,78 @@
     </div>
 
     <!--Today's List-->
-    <div class="bg-gray-500 rounded-lg shadow-lg p-8 m-14">
-        <div class="flex items-center justify-between mb-6">
-            <h2 class="text-2xl font-bold">
-                {% if type == 'rsvp' %}
-                    My RSVP’d Events
-                {% elif type == 'upcoming' %}
-                    Upcoming Events
-                {% elif type == 'past' %}
-                    Past Events
-                {% elif type == 'all' %}
-                    All Events
-                {% else %}
-                    Today's Events
-                {% endif %}
-            </h2>
-        </div>
-        <div class="grid grid-cols-4 gap-4 p-4 bg-black rounded-lg mb-4 font-semibold text-gray-400">
-            <div>Event Name</div>
-            <div>Date</div>
-            <div>Location</div>
-            <div>Total Participants</div>
-        </div>
-        <!-- Events List -->
-        <div class="space-y-4">
-            {% for event in events_list %}
-            <div class="grid grid-cols-4 gap-4 p-4 bg-gray-100 rounded-lg border-l-4 border-gray-700 items-center">
-                <div class="font-semibold text-gray-900">
-                    <i class="fa-regular fa-circle"></i>
-                    {{ event.name }}
-                </div>
-                <div class="font-semibold text-gray-900">
-                    <i class="fa-regular fa-clipboard"></i>
-                    {{ event.date }}
-                </div>
-                <div class="font-medium text-gray-900">
-                    <i class="fa-solid fa-location-dot"></i>
-                    {{ event.location }}
-                </div>
-                <div class="font-medium text-gray-900 flex items-center justify-between">
-                    {{ event.participants.count }}
-                    <a href="{% url 'Event-details' event.id %}" 
-                    class="ml-2 bg-gray-800 hover:bg-indigo-400 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
-                        Details
-                    </a>
-                </div>
-            </div>
-            {% empty %}
-                <p class="text-gray-400 text-sm">No events today.</p>
-            {% endfor %}
-        </div>
+   <div class="bg-gray-500 rounded-lg shadow-lg p-4 md:p-8 m-4 md:m-14">
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6">
+        <h2 class="text-2xl font-bold mb-2 sm:mb-0">
+            {% if type == 'rsvp' %}
+                My RSVP’d Events
+            {% elif type == 'upcoming' %}
+                Upcoming Events
+            {% elif type == 'past' %}
+                Past Events
+            {% elif type == 'all' %}
+                All Events
+            {% else %}
+                Today's Events
+            {% endif %}
+        </h2>
     </div>
+
+    <div class="hidden md:grid grid-cols-4 gap-4 p-4 bg-black rounded-lg mb-4 font-semibold text-gray-400">
+        <div>Event Name</div>
+        <div>Date</div>
+        <div>Location</div>
+        <div>Total Participants</div>
+    </div>
+
+    <!-- Event Items -->
+    <div class="space-y-4">
+        {% for event in events_list %}
+        <div class="md:hidden bg-gray-100 rounded-lg border-l-4 border-gray-700 p-4 flex flex-col space-y-2">
+            <div class="flex items-center font-semibold text-gray-900 text-lg">
+                <i class="fa-regular fa-circle mr-2"></i>{{ event.name }}
+            </div>
+            <div class="flex items-center font-medium text-gray-800 text-sm">
+                <i class="fa-regular fa-clipboard mr-2"></i>{{ event.date }}
+            </div>
+            <div class="flex items-center font-medium text-gray-800 text-sm">
+                <i class="fa-solid fa-location-dot mr-2"></i>{{ event.location }}
+            </div>
+            <div class="flex justify-between items-center">
+                <span class="font-medium text-sm">
+                    Participants: {{ event.participants.count }}
+                </span>
+                <a href="{% url 'Event-details' event.id %}"
+                   class="ml-2 bg-gray-800 hover:bg-indigo-400 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                    Details
+                </a>
+            </div>
+        </div>
+
+        <div class="hidden md:grid grid-cols-4 gap-4 p-4 bg-gray-100 rounded-lg border-l-4 border-gray-700 items-center">
+            <div class="font-semibold text-gray-900 flex items-center">
+                <i class="fa-regular fa-circle mr-2 text-xs"></i>{{ event.name }}
+            </div>
+            <div class="font-semibold text-gray-900 flex items-center">
+                <i class="fa-regular fa-clipboard mr-2 text-xs"></i>{{ event.date }}
+            </div>
+            <div class="font-medium text-gray-900 flex items-center">
+                <i class="fa-solid fa-location-dot mr-2 text-xs"></i>{{ event.location }}
+            </div>
+            <div class="font-medium text-gray-900 flex items-center justify-between">
+                {{ event.participants.count }}
+                <a href="{% url 'Event-details' event.id %}"
+                   class="ml-2 bg-gray-800 hover:bg-indigo-400 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                    Details
+                </a>
+            </div>
+        </div>
+        {% empty %}
+            <p class="text-gray-400 text-sm">No events today.</p>
+        {% endfor %}
+    </div>
+</div>
+
 </div>
 
 {% endblock %}

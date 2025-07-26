@@ -53,23 +53,19 @@
 
 
 
-
 {% comment %} event lists {% endcomment %}
-<section class="py-16 bg-zinc-200">
+<section class="py-16 bg-indigo-50">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="mb-12">
-      <h2 class="text-4xl font-bold text-gray-800 mb-4">Event Lists</h2>
-      <p class="text-xl text-gray-600">Discover amazing events happening near you</p>
+      <h2 class="text-4xl font-bold text-black mb-4">Event Lists</h2>
+      <p class="text-xl text-gray-700">Discover amazing events happening near you</p>
     </div>
 
     {% if request.user.is_authenticated %}
       {% if data %}
-        <!-- Grid: 1 col on small, 2 cols on md, optional 3 cols on lg -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
           {% for event in data %}
             <div class="bg-white rounded-lg shadow-lg overflow-hidden flex flex-col max-w-full h-auto mx-auto">
-
-              <!-- Image on top -->
               <div class="w-full h-64 bg-gray-700 relative">
                 <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('{{event.asset.url}}');"></div>
                 <div class="absolute top-2 left-2 bg-sky-800 text-white p-4 rounded text-center font-bold">
@@ -78,12 +74,9 @@
                 </div>
               </div>
 
-              <!-- Content below image -->
               <div class="p-6 flex flex-col">
                 <h2 class="text-3xl text-sky-900 mb-2 font-semibold">{{ event.name }}</h2>
                 <p class="text-gray-600 leading-relaxed mb-4">{{ event.description|truncatewords:20 }}</p>
-
-                <!-- 3 info blocks beneath description -->
                 <div class="flex flex-wrap gap-8 mb-6 justify-between">
                   <div class="flex items-center gap-4">
                     <div class="w-10 h-10 bg-violet-400 rounded-full flex items-center justify-center text-white">
@@ -114,7 +107,6 @@
                   </div>
                 </div>
 
-                <!-- Buttons below info -->
                 <div class="flex flex-wrap gap-4 justify-end bg-gray-50 p-4 rounded-lg">
                   <a href="{% url 'Event-details' event.id %}">
                     <button

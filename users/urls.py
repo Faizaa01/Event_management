@@ -9,7 +9,7 @@ urlpatterns = [
     path('activate/<int:user_id>/<str:token>/', activate_user),
     path('participants/', participants_list, name='participants_list'),
     path('admin/<int:user_id>/assign-role/', assign_role, name='assign-role'),
-    path('admin/create-group/', create_group, name='create-group'),
-    path('admin/group-list/', group_list, name='group-list'),
+    path('admin/create-group/', create_group, name='create_group'),
+    path('admin/group-list/', group_list, name='group_list'),
     path('no-permission/', no_permission, name='no-permission'),
 ]

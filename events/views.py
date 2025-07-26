@@ -45,6 +45,7 @@ def dashboard(request):
     type = request.GET.get('type','today')
     rsvp_events = request.user.rsvp_events.all().count()
     total_participants = User.objects.filter(rsvp_events__isnull=False).distinct().count()
+    total_events = Event.objects.count()
 
     role = 'Participant'
     if request.user.groups.filter(name='Admin').exists():
@@ -53,12 +54,10 @@ def dashboard(request):
         role = 'Organizer'
 
     if role == 'Participant':
-        total_events = request.user.rsvp_events.count()
         upcoming_events = request.user.rsvp_events.filter(date__gt=today).count()
         past_events = request.user.rsvp_events.filter(date__lt=today).count()
         todays_events = request.user.rsvp_events.filter(date=today)
     else:
-        total_events = Event.objects.count()
         upcoming_events = Event.objects.filter(date__gt=today).count()
         past_events = Event.objects.filter(date__lt=today).count()
         todays_events = Event.objects.filter(date=today)
@@ -72,6 +71,8 @@ def dashboard(request):
             events_list = user_events.filter(date__lt=today).select_related('category')
         elif type == 'today':
             events_list = user_events.filter(date=today).select_related('category')
+        elif type == 'all':
+            events_list = Event.objects.all().select_related('category').prefetch_related('participants')
         else:
             events_list = user_events.select_related('category')
     else:

@@ -100,7 +100,7 @@ def create_group(request):
 
         if form.is_valid():
             group = form.save()
-            return redirect('create-group')
+            return redirect('group_list')
 
     return render(request, 'admin/create_group.html', {'form': form})
 

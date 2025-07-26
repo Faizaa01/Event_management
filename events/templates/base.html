@@ -11,73 +11,86 @@
 </head>
 <body class="bg-gray-100">
     <!-- navbar -->
-    <nav class="fixed top-0 w-full z-50 bg-gray-900/60 backdrop-blur-sm">
-        <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-            <div class="relative flex h-24 items-center justify-between">
-                <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-                    <div class="flex items-center text-white">
-                    <i class="fa-solid fa-calendar-days text-white mr-6 text-2xl"></i>
-                    <div class="flex flex-col items-center leading-tight">
-                        <span class="capitalize text-xl font-bold">event</span>
-                        <span class="capitalize text-xl font-bold">Planner</span>
-                    </div>
-                    </div>
-                    <div class="hidden sm:ml-6 sm:block">
-                        <div class="flex space-x-4">
-                            <a href="{% url 'home' %}" class="{% if request.resolver_match.url_name == 'home' %}bg-gray-900 text-white{% else %}text-gray-300 hover:bg-gray-700 hover:text-white{% endif %} rounded-md px-3 py-2 text-md font-medium">
-                                Home
-                            </a>
-                            <a href="{% url 'dashboard' %}" class="{% if request.resolver_match.url_name == 'dashboard' %}bg-gray-900 text-white{% else %}text-gray-300 hover:bg-gray-700 hover:text-white{% endif %} rounded-md px-3 py-2 text-md font-medium">
-                                Dashboard
-                            </a>
-                            <a href="{% url 'create_event' %}" class="{% if request.resolver_match.url_name == 'Add-event' %}bg-gray-900 text-white{% else %}text-gray-300 hover:bg-gray-700 hover:text-white{% endif %} rounded-md px-3 py-2 text-md font-medium">
-                                Events
-                            </a>
-
-                            {% if request.user.groups.first.name == 'Participant' %}
-                                <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-md font-medium">
-                                    Contact
-                                </a>
-                                <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-md font-medium">
-                                    About
-                                </a>
-                            {% elif request.user.groups.first.name == 'Organizer' or request.user.groups.first.name == 'Admin' %}
-                                <a href="{% url 'list_participants' %}" class="{% if request.resolver_match.url_name == 'Add-participant' %}bg-gray-900 text-white{% else %}text-gray-300 hover:bg-gray-700 hover:text-white{% endif %} rounded-md px-3 py-2 text-md font-medium">
-                                    Participants
-                                </a>
-                                <a href="{% url 'list_categories' %}" class="{% if request.resolver_match.url_name == 'Add-category' %}bg-gray-900 text-white{% else %}text-gray-300 hover:bg-gray-700 hover:text-white{% endif %} rounded-md px-3 py-2 text-md font-medium">
-                                    Categories
-                                </a>
-                            {% endif %}
-                        </div>
-                    </div>
-
-                </div>
-                <div class="absolute inset-y-0 right-0 flex items-center gap-3 pr-4 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                    {% if request.user.is_authenticated %}
-                        <a href="{% url 'sign_out' %}" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">
-                            Logout
-                        </a>
-                    {% else %}
-                        <a href="{% url 'sign_in' %}" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">
-                            Login
-                        </a>
-                        <a href="{% url 'sign_up' %}" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">
-                            Sign Up
-                        </a>
-                    {% endif %}
-                </div>
+<nav class="fixed top-0 w-full z-50 bg-gray-900/60 backdrop-blur-sm">
+    <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+        <div class="relative flex h-24 items-center justify-between">
+        
+        <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+            <div class="flex items-center text-white">
+            <i class="fa-solid fa-calendar-days text-white mr-6 text-2xl"></i>
+            <div class="flex flex-col items-center leading-tight">
+                <span class="capitalize text-xl font-bold">event</span>
+                <span class="capitalize text-xl font-bold">Planner</span>
+            </div>
             </div>
         </div>
-    </nav>
+        
+        <div class="absolute left-4 sm:hidden">
+            <button id="mobile-menu-button" aria-label="Toggle menu" class="text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
+            <svg class="h-8 w-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+            </button>
+        </div>
+        
+        <div class="hidden sm:flex sm:space-x-4 sm:ml-6 sm:items-center">
+            <a href="{% url 'home' %}" class="{% if request.resolver_match.url_name == 'home' %}bg-gray-900 text-white{% else %}text-gray-300 hover:bg-gray-700 hover:text-white{% endif %} rounded-md px-3 py-2 text-md font-medium">Home</a>
+            <a href="{% url 'dashboard' %}" class="{% if request.resolver_match.url_name == 'dashboard' %}bg-gray-900 text-white{% else %}text-gray-300 hover:bg-gray-700 hover:text-white{% endif %} rounded-md px-3 py-2 text-md font-medium">Dashboard</a>
+            <a href="{% url 'create_event' %}" class="{% if request.resolver_match.url_name == 'Add-event' %}bg-gray-900 text-white{% else %}text-gray-300 hover:bg-gray-700 hover:text-white{% endif %} rounded-md px-3 py-2 text-md font-medium">Events</a>
+
+            {% if request.user.groups.first.name == 'Participant' %}
+            <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-md font-medium">Contact</a>
+            <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-md font-medium">About</a>
+            {% elif request.user.groups.first.name == 'Organizer' or request.user.groups.first.name == 'Admin' %}
+            <a href="{% url 'list_participants' %}" class="{% if request.resolver_match.url_name == 'Add-participant' %}bg-gray-900 text-white{% else %}text-gray-300 hover:bg-gray-700 hover:text-white{% endif %} rounded-md px-3 py-2 text-md font-medium">Participants</a>
+            <a href="{% url 'list_categories' %}" class="{% if request.resolver_match.url_name == 'Add-category' %}bg-gray-900 text-white{% else %}text-gray-300 hover:bg-gray-700 hover:text-white{% endif %} rounded-md px-3 py-2 text-md font-medium">Categories</a>
+            {% endif %}
+        </div>
+
+        <div class="hidden sm:flex sm:items-center sm:gap-3">
+            {% if request.user.is_authenticated %}
+            <a href="{% url 'sign_out' %}" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Logout</a>
+            {% else %}
+            <a href="{% url 'sign_in' %}" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Login</a>
+            <a href="{% url 'sign_up' %}" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Sign Up</a>
+            {% endif %}
+        </div>
+        </div>
+    </div>
+
+    <!-- Mobile menu, hidden by default -->
+    <div id="mobile-menu" class="sm:hidden hidden px-2 pt-2 pb-3 space-y-1 bg-gray-900/80 backdrop-blur-sm">
+        <a href="{% url 'home' %}" class="block text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-base font-medium">Home</a>
+        <a href="{% url 'dashboard' %}" class="block text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-base font-medium">Dashboard</a>
+        <a href="{% url 'create_event' %}" class="block text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-base font-medium">Events</a>
+
+        {% if request.user.groups.first.name == 'Participant' %}
+        <a href="#" class="block text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-base font-medium">Contact</a>
+        <a href="#" class="block text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-base font-medium">About</a>
+        {% elif request.user.groups.first.name == 'Organizer' or request.user.groups.first.name == 'Admin' %}
+        <a href="{% url 'list_participants' %}" class="block text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-base font-medium">Participants</a>
+        <a href="{% url 'list_categories' %}" class="block text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-base font-medium">Categories</a>
+        {% endif %}
+
+        {% if request.user.is_authenticated %}
+        <a href="{% url 'sign_out' %}" class="block text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-base font-medium">Logout</a>
+        {% else %}
+        <a href="{% url 'sign_in' %}" class="block text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-base font-medium">Login</a>
+        <a href="{% url 'sign_up' %}" class="block text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-base font-medium">Sign Up</a>
+        {% endif %}
+    </div>
+</nav>
+
 
 <main class="">
     {% block content %}
     {% endblock %}
 </main>
 
+
 <!-- footer -->
- <footer class="bg-gray-900 text-white">
+<footer class="bg-gray-900 text-white">
     <div class="mx-auto max-w-7xl px-6 py-16 lg:px-8">
         <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div class="col-span-1 md:col-span-2">
@@ -123,3 +136,11 @@
 </body>
 </html>
 
+
+<script>
+  const btn = document.getElementById('mobile-menu-button');
+  const menu = document.getElementById('mobile-menu');
+  btn.addEventListener('click', () => {
+    menu.classList.toggle('hidden');
+  });
+</script>
