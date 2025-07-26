@@ -48,7 +48,7 @@ def sign_in(request):
             user = form.get_user()
             login(request, user)
             return redirect('home')
-    return render(request, 'registration/login.html', {'form': form})
+    return render(request, 'Registration/login.html', {'form': form})
 
 
 
