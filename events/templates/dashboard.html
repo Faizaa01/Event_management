@@ -6,19 +6,40 @@
     <!-- Stats Grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:px-10 m-8 p-8">
         <!-- Total Participants -->
-        <div class="relative rounded-lg p-10 shadow-lg cursor-pointer transform transition-all duration-200 hover:scale-105 overflow-hidden" id="stat-total">
-            <div class="absolute inset-0 bg-cover bg-center blur-sm"
-                style="background-image: url('https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=500');">
-            </div>
-            <div class="absolute inset-0 bg-black bg-opacity-40"></div>
-            <div class="relative z-10 flex items-center justify-between">
-                <div>
-                    <p class="text-white text-lg font-medium opacity-90 drop-shadow-lg">Total Participants</p>
-                    <p class="text-white text-3xl font-bold mt-2 drop-shadow-lg">{{ total_participants }}</p>
+        {% if role == 'Participant' %}
+            <!-- RSVP Events (for Participants) -->
+            <div class="relative rounded-lg p-10 shadow-lg cursor-pointer transform transition-all duration-200 hover:scale-105 overflow-hidden">
+                <div class="absolute inset-0 bg-cover bg-center blur-sm"
+                    style="background-image: url('https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=500');">
                 </div>
-                <i data-lucide="users" class="text-white h-8 w-8 opacity-90 drop-shadow-lg"></i>
+                <div class="absolute inset-0 bg-black bg-opacity-40"></div>
+                <div class="relative z-10 flex items-center justify-between">
+                    <div>
+                        <p class="text-white text-lg font-medium opacity-90 drop-shadow-lg">RSVP Events</p>
+                        <p class="text-white text-3xl font-bold mt-2 drop-shadow-lg">{{ rsvp_events }}</p>
+                    </div>
+                    <i data-lucide="bookmark-check" class="text-white h-8 w-8 opacity-90 drop-shadow-lg"></i>
+                </div>
             </div>
-        </div>
+        {% else %}
+            <!-- Total Participants (for Admin/Organizer) -->
+        <a href="{% url 'participants_list' %}" class="block">
+            <div class="relative rounded-lg p-10 shadow-lg cursor-pointer transform transition-all duration-200 hover:scale-105 overflow-hidden" id="stat-total">
+                <div class="absolute inset-0 bg-cover bg-center blur-sm"
+                    style="background-image: url('https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=500');">
+                </div>
+                <div class="absolute inset-0 bg-black bg-opacity-40"></div>
+                <div class="relative z-10 flex items-center justify-between">
+                    <div>
+                        <p class="text-white text-lg font-medium opacity-90 drop-shadow-lg">Total Participants</p>
+                        <p class="text-white text-3xl font-bold mt-2 drop-shadow-lg">{{ total_participants }}</p>
+                    </div>
+                    <i data-lucide="users" class="text-white h-8 w-8 opacity-90 drop-shadow-lg"></i>
+                </div>
+            </div>
+        </a>
+        {% endif %}
+
 
         <!-- Total Events -->
         <a href="{% url 'dashboard' %}?type=all" class="block">
@@ -69,13 +90,22 @@
                 </div>
             </div>
         </a>
+        <!--RSVP events -->
+        {% if role == 'Participant' %}
+            <a href="{% url 'dashboard' %}?type=rsvp" class="bg-indigo-600 hover:bg-indigo-800 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                My RSVP Events
+            </a>
+        {% endif %}
+
     </div>
 
-    <!-- Today's Events -->
+    <!--Today's List-->
     <div class="bg-gray-500 rounded-lg shadow-lg p-8 m-14">
         <div class="flex items-center justify-between mb-6">
             <h2 class="text-2xl font-bold">
-                {% if type == 'upcoming' %}
+                {% if type == 'rsvp' %}
+                    My RSVP’d Events
+                {% elif type == 'upcoming' %}
                     Upcoming Events
                 {% elif type == 'past' %}
                     Past Events

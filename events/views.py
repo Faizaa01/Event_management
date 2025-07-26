@@ -4,9 +4,16 @@ from events.forms import Eventform, Categoryform
 from django.db.models import Q, Count
 from django.contrib import messages
 from datetime import date
-from django.contrib.auth.models import User
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User, Group
+from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
+from django.db.models import Prefetch
+from users.views import is_admin
 
+
+
+
+def is_participant(user):
+    return user.groups.filter(name="Participant").exists()
 
 
 def home(request):
@@ -21,12 +28,7 @@ def home(request):
 
 # RSVP
 
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import get_object_or_404, redirect
-from django.contrib import messages
-from .models import Event
-
-@login_required
+@user_passes_test(is_participant)
 def rsvp_event(request, event_id):
     event = Event.objects.get(id=event_id)
     if request.user not in event.participants.all():
@@ -37,26 +39,50 @@ def rsvp_event(request, event_id):
 
 
 # Dashboard
-
+@login_required
 def dashboard(request):
-    type = request.GET.get('type','today')
-    total_participants = User.objects.filter(rsvp_events__isnull=False).distinct().count()
-    total_events = Event.objects.count()
     today = date.today()
+    type = request.GET.get('type','today')
+    rsvp_events = request.user.rsvp_events.all().count()
+    total_participants = User.objects.filter(rsvp_events__isnull=False).distinct().count()
 
-    upcoming_events = Event.objects.filter(date__gt=today).count()
-    past_events = Event.objects.filter(date__lt=today).count()
-    todays_events = Event.objects.filter(date=today)
+    role = 'Participant'
+    if request.user.groups.filter(name='Admin').exists():
+        role = 'Admin'
+    elif request.user.groups.filter(name='Organizer').exists():
+        role = 'Organizer'
 
-    if type =='upcoming':
-        events_list = Event.objects.filter(date__gt=today).select_related('category').prefetch_related('participants')
-    elif type == 'past':
-        events_list = Event.objects.filter(date__lt=today).select_related('category').prefetch_related('participants')
-    elif type == 'today':
-        events_list = todays_events.select_related('category').prefetch_related('participants')
+    if role == 'Participant':
+        total_events = request.user.rsvp_events.count()
+        upcoming_events = request.user.rsvp_events.filter(date__gt=today).count()
+        past_events = request.user.rsvp_events.filter(date__lt=today).count()
+        todays_events = request.user.rsvp_events.filter(date=today)
     else:
-        events_list = Event.objects.all().select_related('category').prefetch_related('participants')
+        total_events = Event.objects.count()
+        upcoming_events = Event.objects.filter(date__gt=today).count()
+        past_events = Event.objects.filter(date__lt=today).count()
+        todays_events = Event.objects.filter(date=today)
 
+
+    if role == 'Participant' and request.user.is_authenticated:
+        user_events = request.user.rsvp_events.all()
+        if type == 'upcoming':
+            events_list = user_events.filter(date__gt=today).select_related('category')
+        elif type == 'past':
+            events_list = user_events.filter(date__lt=today).select_related('category')
+        elif type == 'today':
+            events_list = user_events.filter(date=today).select_related('category')
+        else:
+            events_list = user_events.select_related('category')
+    else:
+        if type == 'upcoming':
+            events_list = Event.objects.filter(date__gt=today).select_related('category').prefetch_related('participants')
+        elif type == 'past':
+            events_list = Event.objects.filter(date__lt=today).select_related('category').prefetch_related('participants')
+        elif type == 'today':
+            events_list = todays_events
+        else:
+            events_list = Event.objects.all().select_related('category').prefetch_related('participants')
 
     context = {
         'total_events': total_events,
@@ -65,14 +91,16 @@ def dashboard(request):
         'past_events': past_events,
         'todays_events': todays_events,
         'events_list': events_list,
+        'rsvp_events': rsvp_events,
         'type': type,
-        'today': today
+        'today': today,
+        'role': role
     }
     return render(request, 'dashboard.html', context)
 
 
 # Search
-
+@login_required
 def search_events(request):
     query = request.GET.get('query', '')
     if query:
@@ -84,7 +112,7 @@ def search_events(request):
 
 
 # Event
-
+@login_required
 def event_details(request, id):
     event = get_object_or_404(Event.objects.select_related('category').prefetch_related('participants'), id=id)
     participants = event.participants.all()
@@ -94,7 +122,7 @@ def event_details(request, id):
     }
     return render(request, 'event_details.html', context)
 
-
+@permission_required("events.create_event", login_url='no-permission')
 def create_event(request):
     form = Eventform()
     if request.method == "POST":
@@ -106,6 +134,8 @@ def create_event(request):
     return render(request, "form.html", context)
 
 
+
+@permission_required("events.change_event", login_url='no-permission')
 def update_event(request, id):
     event = Event.objects.get(id=id)
     if request.method == 'POST':
@@ -120,7 +150,7 @@ def update_event(request, id):
     return render(request, "form.html", context)
 
 
-
+@permission_required("events.delete_event", login_url='no-permission')
 def delete_event(request, id):
     if request.method == "POST":
         event = Event.objects.get(id=id)
@@ -130,6 +160,16 @@ def delete_event(request, id):
     return redirect('home')
 
 
+@user_passes_test(is_admin, login_url='no-permission')
+def participants_list(request):
+    users = User.objects.prefetch_related(Prefetch('groups', queryset=Group.objects.all(), to_attr='all_groups')).all()
+    for user in users:
+        if user.all_groups:
+            user.group_name = user.all_groups[0].name
+        else:
+            user.group_name = 'No Group Assigned'
+
+    return render(request, 'admin/participants_list.html', {'users': users})
 
 # Category
 
@@ -142,6 +182,7 @@ def delete_event(request, id):
 #     return render(request, 'list.html', context)
 
 
+@permission_required("events.create_category", login_url='no-permission')
 def create_category(request):
     form = Categoryform()
     if request.method == "POST":
@@ -153,6 +194,7 @@ def create_category(request):
     return render(request, "form.html", context)
 
 
+@permission_required("events.change_category", login_url='no-permission')
 def update_category(request, id):
     category = Category.objects.get(id=id)
     if request.method == 'POST':
@@ -166,6 +208,7 @@ def update_category(request, id):
     return render(request, "form.html", context)
 
 
+@permission_required("events.delete_category", login_url='no-permission')
 def delete_category(request, id):
     if request.method == "POST":
         category = Category.objects.get(id=id)
