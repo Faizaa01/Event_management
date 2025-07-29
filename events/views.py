@@ -1,14 +1,18 @@
+from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
+from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
+from django.views.generic import ListView, DetailView, UpdateView
 from django.shortcuts import render, redirect,get_object_or_404
-from events.models import Event, Category
+from django.utils.decorators import method_decorator
+from django.views.generic.base import ContextMixin
+from django.contrib.auth.models import User, Group
 from events.forms import Eventform, Categoryform
+from events.models import Event, Category
+from django.db.models import Prefetch
 from django.db.models import Q, Count
 from django.contrib import messages
-from datetime import date
-from django.contrib.auth.models import User, Group
-from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
-from django.db.models import Prefetch
 from users.views import is_admin
-
+from django.views import View
+from datetime import date
 
 
 
@@ -112,42 +116,105 @@ def search_events(request):
 
 
 # Event
-@login_required
-def event_details(request, id):
-    event = get_object_or_404(Event.objects.select_related('category').prefetch_related('participants'), id=id)
-    participants = event.participants.all()
-    context = {
-        'event': event,
-        'participants': participants,
-    }
-    return render(request, 'event_details.html', context)
 
-@permission_required("events.add_event", login_url='no-permission')
-def create_event(request):
-    form = Eventform()
-    if request.method == "POST":
+# @login_required
+# def event_details(request, id):
+#     event = get_object_or_404(Event.objects.select_related('category').prefetch_related('participants'), id=id)
+#     participants = event.participants.all()
+#     context = {
+#         'event': event,
+#         'participants': participants,
+#     }
+#     return render(request, 'event_details.html', context)
+
+
+
+# @permission_required("events.add_event", login_url='no-permission')
+# def create_event(request):
+#     form = Eventform()
+#     if request.method == "POST":
+#         form = Eventform(request.POST, request.FILES)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('create_event')
+#     context = {"form": form, "title": "Add Event"}
+#     return render(request, "form.html", context)
+
+
+
+class EventDetail(DetailView):
+    model = Event
+    pk_url_kwarg = 'id'
+    context_object_name = 'event'
+    template_name = 'event_details.html'
+
+    def get_queryset(self):
+        return Event.objects.select_related('category').prefetch_related('participants')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["participants"] = self.object.participants.all()
+        return context
+    
+
+
+class CreateEvent(ContextMixin, LoginRequiredMixin, PermissionRequiredMixin, View):
+    permission_required = 'events.add_event'
+    template_name = 'form.html'
+    login_url = 'sign_in'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = kwargs.get('form', Eventform())
+        context['title'] = 'Add Event'
+        return context
+
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data()
+        return render(request, self.template_name, context)
+    
+    def post(self, request, *args, **kwargs):
         form = Eventform(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return redirect('create_event')
-    context = {"form": form, "title": "Add Event"}
-    return render(request, "form.html", context)
+        context = self.get_context_data(form = form)
+        return render(request, self.template_name, context)
 
 
+# @permission_required("events.change_event", login_url='no-permission')
+# def update_event(request, id):
+#     event = Event.objects.get(id=id)
+#     if request.method == 'POST':
+#         form = Eventform(request.POST, request.FILES, instance=event)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('Event-details', id=event.id)
+#     else:
+#         form = Eventform(instance=event)
 
-@permission_required("events.change_event", login_url='no-permission')
-def update_event(request, id):
-    event = Event.objects.get(id=id)
-    if request.method == 'POST':
-        form = Eventform(request.POST, request.FILES, instance=event)
-        if form.is_valid():
-            form.save()
-            return redirect('Event-details', id=event.id)
-    else:
-        form = Eventform(instance=event)
+#     context = {"form": form, 'title': 'Update Event'}
+#     return render(request, "form.html", context)
 
-    context = {"form": form, 'title': 'Update Event'}
-    return render(request, "form.html", context)
+
+class UpdateEvent(PermissionRequiredMixin, UpdateView):
+    model = Event
+    pk_url_kwarg = 'id'
+    form_class = Eventform
+    template_name = 'form.html'
+    login_url = 'no-permission'
+    context_object_name = 'event'
+    permission_required = 'events.change_event'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = 'Update Event'
+        return context
+    
+    def form_valid(self, form):
+        event = form.save()
+        return redirect('Event-details', id=event.id)
+    
 
 
 @permission_required("events.delete_event", login_url='no-permission')
@@ -200,25 +267,70 @@ def delete_participant(request, id):
 
 # Category
 
-def list_categories(request):
-    data = Category.objects.all()
-    context = {
-        'data': data,
-        'title': 'Category List'
-    }
-    return render(request, 'list.html', context)
+# @permission_required("events.view_category", login_url='no-permission')
+# def list_categories(request):
+#     data = Category.objects.annotate(num=Count('events')).order_by('num')
+#     context = {
+#         'data': data,
+#         'title': 'Category List'
+#     }
+#     return render(request, 'list.html', context)
 
 
-@permission_required("events.add_category", login_url='no-permission')
-def create_category(request):
-    form = Categoryform()
-    if request.method == "POST":
+# @permission_required("events.add_category", login_url='no-permission')
+# def create_category(request):
+#     form = Categoryform()
+#     if request.method == "POST":
+#         form = Categoryform(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('create_category')
+#     context = {"form": form, "title": "Add Category"}
+#     return render(request, "form.html", context)
+
+
+
+
+view_category_decorators = [login_required, permission_required("events.view_category", login_url='no-permission')]
+@method_decorator(view_category_decorators, name='dispatch')
+class ListCategory(ListView):
+    model = Category
+    template_name = 'list.html'
+    context_object_name = 'data'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Category List'
+        return context
+    def get_queryset(self):
+        queryset = Category.objects.annotate(num=Count('events')).order_by('num')
+        return queryset
+
+
+
+class CreateCategory(ContextMixin, LoginRequiredMixin, PermissionRequiredMixin, View):
+    permission_required = 'events.add_category'
+    login_url = 'sign_in'
+    template_name = 'form.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = kwargs.get('form', Categoryform())
+        context['title'] = 'Add Category'
+        return context
+
+
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data()
+        return render(request, self.template_name, context)
+    
+    def post(self, request, *args, **kwargs):
         form = Categoryform(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('create_category')
-    context = {"form": form, "title": "Add Category"}
-    return render(request, "form.html", context)
+            return redirect('list_categories')
+        context = self.get_context_data(form = form)
+        return render(request, self.template_name, context)
 
 
 @permission_required("events.change_category", login_url='no-permission')
