@@ -1,12 +1,12 @@
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm, PasswordResetForm, SetPasswordForm
-from django.contrib.auth.models import User, Permission, Group
+from django.contrib.auth.models import Permission, Group
 from django.contrib.auth import get_user_model
-# from users.models import CustomUser
 from events.forms import StyledFormMixin
+from users.models import CustomUser
 from django import forms
 import re
 
-# User = get_user_model()
+User = get_user_model()
 
 
 class RegistrationForm(forms.ModelForm):
@@ -90,11 +90,10 @@ class GroupForm(StyledFormMixin, forms.ModelForm):
 
 
 
-class EditProfileForm(forms.ModelForm):
-    pass
-#     class Meta:
-#         model = User
-#         fields = ['email', 'first_name', 'last_name', 'bio', 'profile_image']
+class EditProfileForm(StyledFormMixin, forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ['email', 'first_name', 'last_name', 'phone', 'bio', 'profile_image']
 
 
 class CustomPasswordChangeForm(StyledFormMixin ,PasswordChangeForm):

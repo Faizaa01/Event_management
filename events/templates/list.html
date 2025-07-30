@@ -2,7 +2,7 @@
 {% load static %}
 {% block title %}List{% endblock title %}
 {% block content %}
-<div class="min-h-screen pt-28 flex items-center justify-center bg-stone-400">
+<div class="min-h-screen pt-28 flex items-center justify-center bg-blue-200">
   <div class="w-full max-w-4xl bg-white p-6 rounded shadow mb-12">
     <h2 class="text-3xl font-semibold mb-6 text-center">{{ title }}</h2>
     {% if data %}
@@ -60,6 +60,7 @@
     {% else %}
       <p class="text-center text-gray-500">No items found.</p>
     {% endif %}
+    
   </div>
 </div>
 {% endblock %}

@@ -37,7 +37,7 @@
             />
             <div>
               <h2 class="text-2xl font-semibold text-gray-800">{{name}}</h2>
-              <p class="text-gray-600">Software Developer</p>
+              <p class="text-gray-600">Role: {{ user.groups.all.0.name }}</p>
             </div>
           </div>
 
@@ -51,9 +51,6 @@
               </p>
               <p class="text-gray-600">
                 <span class="font-medium">Username:</span> {{ username }}
-              </p>
-              <p class="text-gray-600">
-                <span class="font-medium">Location:</span> New York, USA
               </p>
             </div>
             <div>

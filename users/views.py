@@ -3,15 +3,14 @@ from django.contrib.auth.views import LoginView, PasswordChangeView, PasswordRes
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.tokens import default_token_generator
 from django.shortcuts import render, redirect, HttpResponse
-from django.contrib.auth.models import User, Group
-from django.db.models.signals import post_save
-from django.contrib.auth import get_user_model
-from django.contrib.auth import login, logout
-from django.dispatch import receiver
-from django.urls import reverse_lazy
 from django.views.generic import TemplateView, UpdateView
+from django.contrib.auth import get_user_model
+from django.db.models.signals import post_save
+from django.contrib.auth.models import Group
+from django.contrib.auth import logout
+from django.urls import reverse_lazy
 
-# User = get_user_model()
+User = get_user_model()
 
 
 def is_admin(user):
@@ -134,9 +133,9 @@ class ProfileView(TemplateView):
         context['username'] = user.username
         context['email'] = user.email
         context['name'] = user.get_full_name()
-        # context['bio'] = user.bio
-        # context['profile_image'] = user.profile_image
-
+        context['bio'] = user.bio
+        context['phone'] = user.phone
+        context['profile_image'] = user.profile_image
         context['member_since'] = user.date_joined
         context['last_login'] = user.last_login
         return context

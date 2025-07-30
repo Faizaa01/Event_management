@@ -4,8 +4,9 @@ from django.views.generic import ListView, DetailView, UpdateView
 from django.shortcuts import render, redirect,get_object_or_404
 from django.utils.decorators import method_decorator
 from django.views.generic.base import ContextMixin
-from django.contrib.auth.models import User, Group
 from events.forms import Eventform, Categoryform
+from django.contrib.auth import get_user_model
+from django.contrib.auth.models import Group
 from events.models import Event, Category
 from django.db.models import Prefetch
 from django.db.models import Q, Count
@@ -13,6 +14,8 @@ from django.contrib import messages
 from users.views import is_admin
 from django.views import View
 from datetime import date
+
+User = get_user_model()
 
 
 
