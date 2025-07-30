@@ -1,8 +1,12 @@
-import re
-from django import forms
+from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm, PasswordResetForm, SetPasswordForm
 from django.contrib.auth.models import User, Permission, Group
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import get_user_model
+# from users.models import CustomUser
+from events.forms import StyledFormMixin
+from django import forms
+import re
 
+# User = get_user_model()
 
 
 class RegistrationForm(forms.ModelForm):
@@ -73,7 +77,7 @@ class AssignRoleForm(forms.Form):
     role = forms.ModelChoiceField(queryset=Group.objects.all(), empty_label="Select a Role")
 
 
-class GroupForm(forms.ModelForm):
+class GroupForm(StyledFormMixin, forms.ModelForm):
     permissions = forms.ModelMultipleChoiceField(
         queryset=Permission.objects.all(),
         widget=forms.CheckboxSelectMultiple,
@@ -83,4 +87,24 @@ class GroupForm(forms.ModelForm):
         model = Group
         fields = ['name', 'permissions']
 
-        
+
+
+
+class EditProfileForm(forms.ModelForm):
+    pass
+#     class Meta:
+#         model = User
+#         fields = ['email', 'first_name', 'last_name', 'bio', 'profile_image']
+
+
+class CustomPasswordChangeForm(StyledFormMixin ,PasswordChangeForm):
+    pass
+
+
+class CustomPasswordResetForm(StyledFormMixin, PasswordResetForm):
+    pass
+
+
+class CustomPasswordResetConfirmForm(StyledFormMixin, SetPasswordForm):
+    pass
+

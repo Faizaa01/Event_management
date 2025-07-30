@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
-
+{% block title %}Form{% endblock title %}
 {% block content %}
   <div class="min-h-screen pt-28 pb-8 flex items-center justify-center bg-stone-400">
-    <div class="form-container w-full max-w-md bg-zinc-100 p-8 rounded shadow">
+    <div class="form-container w-full max-w-md bg-zinc-200 p-8 rounded shadow">
       <h2 class="text-3xl font-semibold mb-6 text-center">{{ title }}</h2>
       <form method="POST" enctype="multipart/form-data" class="mb-4">
         {% csrf_token %}

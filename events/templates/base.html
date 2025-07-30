@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>{% block title %}{% endblock title %}</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="{% static 'css/output.css' %}">
 
@@ -49,16 +49,31 @@
             {% endif %}
         </div>
 
-        <div class="hidden sm:flex sm:items-center sm:gap-3">
+
+        <!-- Profile dropdown -->
+        <div class="hidden sm:flex sm:items-center sm:gap-3 relative">
             {% if request.user.is_authenticated %}
-            <a href="{% url 'sign_out' %}" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Logout</a>
+                <div class="relative">
+                    <button id="profile-menu-button" class="block rounded-full overflow-hidden border-2 border-gray-600 w-10 h-10 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        <img class="w-10 h-10 rounded-full object-cover" src="" alt="Profile">
+                    </button>
+                    <div id="profile-menu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-50">
+                        <a href="{% url 'profile' %}" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Profile</a>
+                        <a href="{% url 'sign_out' %}" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Logout</a>
+                    </div>
+                </div>
             {% else %}
-            <a href="{% url 'sign_in' %}" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Login</a>
-            <a href="{% url 'sign_up' %}" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Sign Up</a>
+                <a href="{% url 'sign_in' %}" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Login</a>
+                <a href="{% url 'sign_up' %}" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Sign Up</a>
             {% endif %}
         </div>
+
         </div>
     </div>
+
+
+
+
 
     <!-- Mobile menu, hidden by default -->
     <div id="mobile-menu" class="sm:hidden hidden px-2 pt-2 pb-3 space-y-1 bg-gray-900/80 backdrop-blur-sm">
@@ -75,6 +90,7 @@
         {% endif %}
 
         {% if request.user.is_authenticated %}
+        <a href="{% url 'profile' %}" class="block text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-base font-medium">Profile</a>
         <a href="{% url 'sign_out' %}" class="block text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-base font-medium">Logout</a>
         {% else %}
         <a href="{% url 'sign_in' %}" class="block text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-base font-medium">Login</a>
@@ -144,4 +160,22 @@
   btn.addEventListener('click', () => {
     menu.classList.toggle('hidden');
   });
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const profileButton = document.getElementById("profile-menu-button");
+    const profileMenu = document.getElementById("profile-menu");
+
+    if (profileButton) {
+        profileButton.addEventListener('click', function (e) {
+            e.stopPropagation();
+            profileMenu.classList.toggle('hidden');
+        });
+
+        // Hide menu on outside click
+        document.addEventListener('click', function () {
+            profileMenu.classList.add('hidden');
+        });
+    }
+});
 </script>
