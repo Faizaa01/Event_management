@@ -1,5 +1,5 @@
 from django import template
-from datetime import datetime
+from datetime import datetime, timedelta
 from django.utils import timezone
 
 register = template.Library()
@@ -12,7 +12,7 @@ def humanized_date(value):
         value = timezone.localtime(value)
         if value.date() == today:
             return f"Today at {value.strftime('%I:%M %p')}"
-        if value.date() == today.replace(day=today.day - 1):
+        if value.date() == (today - timedelta(days=1)):
             return f"Yesterday at {value.strftime('%I:%M %p')}"
         else:
             return f"{value.date().strftime('%B %d')}, {value.strftime('%I:%M %p')}"

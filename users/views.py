@@ -53,17 +53,6 @@ class CustomLoginView(LoginView):
         return next_url if next_url else super().get_success_url()
 
 
-# def sign_in(request):
-#     form = LoginForm()
-#     if request.method == 'POST':
-#         form = LoginForm(data=request.POST)
-#         if form.is_valid():
-#             user = form.get_user()
-#             login(request, user)
-#             return redirect('home')
-#     return render(request, 'Registration/login.html', {'form': form})
-
-
 
 @login_required
 def sign_out(request):
