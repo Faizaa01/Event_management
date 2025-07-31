@@ -46,6 +46,7 @@ def sign_up(request):
 
 class CustomLoginView(LoginView):
     form_class = LoginForm
+    template_name = 'Registration/login.html'
 
     def get_success_url(self):
         next_url = self.request.GET.get('next')
