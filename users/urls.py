@@ -2,12 +2,9 @@ from users.views import sign_up,sign_out,activate_user, no_permission, group_lis
 from django.contrib.auth.views import PasswordChangeView, PasswordChangeDoneView
 from events.views import participants_list
 from django.urls import path
-from users.views import run_migrations
 
 
 urlpatterns = [
-    path('run-migrations/', run_migrations),
-
     path('sign_up/', sign_up, name='sign_up'),
     # path('sign_in/', sign_in, name='sign_in'),
     path('sign_in/', CustomLoginView.as_view(), name='sign_in'),

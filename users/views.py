@@ -188,12 +188,3 @@ class CustomPasswordResetConfirmView(PasswordResetConfirmView):
 
 
 
-from django.core.management import call_command
-
-def run_migrations(request):
-    try:
-        call_command('migrate')
-        return HttpResponse("✅ Migrations applied successfully.")
-    except Exception as e:
-        return HttpResponse(f"❌ Error during migration: {str(e)}")
-
