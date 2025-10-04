@@ -1,0 +1,197 @@
+[
+  {
+    "model": "events.event",
+    "pk": 1,
+    "fields": {
+      "name": "Tech Innovations 2025",
+      "description": "A showcase of cutting-edge technology in AI, robotics, and sustainable computing. Attendees will experience hands-on demos, keynote talks, and interactive workshops from industry leaders.",
+      "date": "2025-11-10",
+      "time": "09:30:00",
+      "category": 1,
+      "location": "Silicon Valley Conference Center, CA",
+      "asset": "https://images.unsplash.com/photo-1581091012184-07e4dc7f3d55"
+    }
+  },
+  {
+    "model": "events.event",
+    "pk": 2,
+    "fields": {
+      "name": "AI & Robotics Expo",
+      "description": "Explore the future of AI and robotics. Witness demonstrations of humanoid robots, smart AI assistants, and automated systems shaping industries worldwide.",
+      "date": "2025-11-15",
+      "time": "11:00:00",
+      "category": 1,
+      "location": "Boston Innovation Hub, MA",
+      "asset": "https://images.unsplash.com/photo-1581091215360-2f1b6e5f5c9c"
+    }
+  },
+  {
+    "model": "events.event",
+    "pk": 3,
+    "fields": {
+      "name": "Global Social Summit",
+      "description": "A gathering of activists, NGOs, and community leaders discussing social change, policy reforms, and grassroots movements. Workshops focus on building sustainable communities.",
+      "date": "2025-11-20",
+      "time": "10:00:00",
+      "category": 2,
+      "location": "New York City Social Hall, NY",
+      "asset": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d"
+    }
+  },
+  {
+    "model": "events.event",
+    "pk": 4,
+    "fields": {
+      "name": "Youth Leadership Forum",
+      "description": "An interactive forum for young leaders to discuss social responsibility, volunteerism, and community development projects across different regions.",
+      "date": "2025-11-22",
+      "time": "14:00:00",
+      "category": 2,
+      "location": "Chicago Civic Center, IL",
+      "asset": "https://images.unsplash.com/photo-1532619187603-5662cc45c1b4"
+    }
+  },
+  {
+    "model": "events.event",
+    "pk": 5,
+    "fields": {
+      "name": "Cultural Fiesta 2025",
+      "description": "Celebrate global cultures with music, dance, cuisine, and art. Experience performances from international artists and immersive cultural exhibitions.",
+      "date": "2025-12-01",
+      "time": "16:00:00",
+      "category": 3,
+      "location": "Los Angeles Cultural Center, CA",
+      "asset": "https://images.unsplash.com/photo-1523995478367-949c3a9d4bfa"
+    }
+  },
+  {
+    "model": "events.event",
+    "pk": 6,
+    "fields": {
+      "name": "International Art & Dance Festival",
+      "description": "An annual festival featuring dance, visual arts, and theatrical performances from artists around the world. Interactive workshops available for attendees.",
+      "date": "2025-12-05",
+      "time": "18:30:00",
+      "category": 3,
+      "location": "San Francisco Arts Pavilion, CA",
+      "asset": "https://images.unsplash.com/photo-1534804070609-02236a5d00b2"
+    }
+  },
+  {
+    "model": "events.event",
+    "pk": 7,
+    "fields": {
+      "name": "Educational Workshop: STEM for Kids",
+      "description": "A hands-on workshop designed to inspire children in science, technology, engineering, and math. Includes interactive experiments and team activities.",
+      "date": "2025-12-10",
+      "time": "09:00:00",
+      "category": 4,
+      "location": "Seattle Learning Center, WA",
+      "asset": "https://images.unsplash.com/photo-1581090700227-fad9f2f7f8e8"
+    }
+  },
+  {
+    "model": "events.event",
+    "pk": 8,
+    "fields": {
+      "name": "Higher Education Fair",
+      "description": "Meet top universities and educational institutions. Explore courses, scholarships, and career guidance in a comprehensive fair for students and parents.",
+      "date": "2025-12-12",
+      "time": "10:30:00",
+      "category": 4,
+      "location": "Houston Education Expo Center, TX",
+      "asset": "https://images.unsplash.com/photo-1581092554458-64c24c32a21f"
+    }
+  },
+  {
+    "model": "events.event",
+    "pk": 9,
+    "fields": {
+      "name": "City Marathon 2025",
+      "description": "Join thousands of participants in the annual city marathon promoting fitness, endurance, and health awareness. Multiple race categories for all age groups.",
+      "date": "2025-12-15",
+      "time": "07:00:00",
+      "category": 5,
+      "location": "Central Park, NY",
+      "asset": "https://images.unsplash.com/photo-1542736667-069246bdbc6d"
+    }
+  },
+  {
+    "model": "events.event",
+    "pk": 10,
+    "fields": {
+      "name": "Sports & Fitness Expo",
+      "description": "Exhibit of the latest in sports equipment, fitness technology, and wellness programs. Participate in fitness challenges and interactive workshops.",
+      "date": "2025-12-18",
+      "time": "10:00:00",
+      "category": 5,
+      "location": "Miami Sports Arena, FL",
+      "asset": "https://images.unsplash.com/photo-1605296867304-46d5465a13f1"
+    }
+  },
+  {
+    "model": "events.event",
+    "pk": 11,
+    "fields": {
+      "name": "Business Leaders Summit",
+      "description": "An exclusive summit connecting entrepreneurs, investors, and corporate leaders. Discuss emerging business trends, startup funding, and networking opportunities.",
+      "date": "2025-12-20",
+      "time": "09:30:00",
+      "category": 6,
+      "location": "New York City Business Center, NY",
+      "asset": "https://images.unsplash.com/photo-1581091012184-07e4dc7f3d55"
+    }
+  },
+  {
+    "model": "events.event",
+    "pk": 12,
+    "fields": {
+      "name": "Startup Pitch Night",
+      "description": "Early-stage startups present their business ideas to investors, mentors, and industry experts. Feedback sessions and networking included.",
+      "date": "2025-12-22",
+      "time": "18:00:00",
+      "category": 6,
+      "location": "San Francisco Innovation Hub, CA",
+      "asset": "https://images.unsplash.com/photo-1551836022-d5d88e9218df"
+    }
+  },
+  {
+    "model": "events.event",
+    "pk": 13,
+    "fields": {
+      "name": "Movie Premiere Night",
+      "description": "Premiere screening of the latest blockbuster film with celebrity appearances, red carpet, and media coverage.",
+      "date": "2025-12-25",
+      "time": "20:00:00",
+      "category": 7,
+      "location": "Los Angeles Grand Theater, CA",
+      "asset": "https://images.unsplash.com/photo-1573852424492-0d84a27a80f0"
+    }
+  },
+  {
+    "model": "events.event",
+    "pk": 14,
+    "fields": {
+      "name": "Live Music Concert",
+      "description": "Enjoy an evening of live performances from world-renowned artists spanning genres from rock to jazz. Food and merchandise stalls available.",
+      "date": "2025-12-28",
+      "time": "19:30:00",
+      "category": 7,
+      "location": "Madison Square Garden, NY",
+      "asset": "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4"
+    }
+  },
+  {
+    "model": "events.event",
+    "pk": 15,
+    "fields": {
+      "name": "Comedy Night Live",
+      "description": "A night full of laughter with performances from top stand-up comedians. Enjoy snacks, drinks, and interactive comedy games.",
+      "date": "2025-12-30",
+      "time": "20:00:00",
+      "category": 7,
+      "location": "Chicago Comedy Club, IL",
+      "asset": "https://images.unsplash.com/photo-1515169067863-5387f66e0a37"
+    }
+  }
+]

@@ -162,7 +162,7 @@ EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 
 
-FRONTEND_URL = config('Frontend_URL')
+FRONTEND_URL = config('FRONTEND_URL')
 
 
 LOGIN_URL = '/users/sign_in/'
