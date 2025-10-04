@@ -193,7 +193,7 @@ def delete_event(request, id):
 
 @user_passes_test(is_admin, login_url='no-permission')
 def participants_list(request):
-    users = User.objects.prefetch_related('groups').all()
+    users = User.objects.prefetch_related(Prefetch('groups', queryset=Group.objects.all(), to_attr='all_groups')).all()
     for user in users:
         if user.all_groups:
             user.group_name = user.all_groups[0].name

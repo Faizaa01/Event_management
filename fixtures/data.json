@@ -9,7 +9,7 @@
       "time": "09:30:00",
       "category": 1,
       "location": "Silicon Valley Conference Center, CA",
-      "asset": "https://images.unsplash.com/photo-1581091012184-07e4dc7f3d55"
+      "asset": "event_images/1.jpg"
     }
   },
   {
@@ -22,7 +22,7 @@
       "time": "11:00:00",
       "category": 1,
       "location": "Boston Innovation Hub, MA",
-      "asset": "https://images.unsplash.com/photo-1581091215360-2f1b6e5f5c9c"
+      "asset": "event_images/14.jpg"
     }
   },
   {
@@ -35,7 +35,7 @@
       "time": "10:00:00",
       "category": 2,
       "location": "New York City Social Hall, NY",
-      "asset": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d"
+      "asset": "event_images/2.jpg"
     }
   },
   {
@@ -48,7 +48,7 @@
       "time": "14:00:00",
       "category": 2,
       "location": "Chicago Civic Center, IL",
-      "asset": "https://images.unsplash.com/photo-1532619187603-5662cc45c1b4"
+      "asset": "event_images/5.jpg"
     }
   },
   {
@@ -61,7 +61,7 @@
       "time": "16:00:00",
       "category": 3,
       "location": "Los Angeles Cultural Center, CA",
-      "asset": "https://images.unsplash.com/photo-1523995478367-949c3a9d4bfa"
+      "asset": "event_images/7.jpeg"
     }
   },
   {
@@ -74,7 +74,7 @@
       "time": "18:30:00",
       "category": 3,
       "location": "San Francisco Arts Pavilion, CA",
-      "asset": "https://images.unsplash.com/photo-1534804070609-02236a5d00b2"
+      "asset": "event_images/9.jpg"
     }
   },
   {
@@ -87,7 +87,7 @@
       "time": "09:00:00",
       "category": 4,
       "location": "Seattle Learning Center, WA",
-      "asset": "https://images.unsplash.com/photo-1581090700227-fad9f2f7f8e8"
+      "asset": "event_images/10.jpeg"
     }
   },
   {
@@ -100,7 +100,7 @@
       "time": "10:30:00",
       "category": 4,
       "location": "Houston Education Expo Center, TX",
-      "asset": "https://images.unsplash.com/photo-1581092554458-64c24c32a21f"
+      "asset": "event_images/13.jpg"
     }
   },
   {
@@ -113,7 +113,7 @@
       "time": "07:00:00",
       "category": 5,
       "location": "Central Park, NY",
-      "asset": "https://images.unsplash.com/photo-1542736667-069246bdbc6d"
+      "asset": "event_images/3.jpg"
     }
   },
   {
@@ -126,7 +126,7 @@
       "time": "10:00:00",
       "category": 5,
       "location": "Miami Sports Arena, FL",
-      "asset": "https://images.unsplash.com/photo-1605296867304-46d5465a13f1"
+      "asset": "event_images/4.jpg"
     }
   },
   {
@@ -139,7 +139,7 @@
       "time": "09:30:00",
       "category": 6,
       "location": "New York City Business Center, NY",
-      "asset": "https://images.unsplash.com/photo-1581091012184-07e4dc7f3d55"
+      "asset": "event_images/6.jpg"
     }
   },
   {
@@ -152,7 +152,7 @@
       "time": "18:00:00",
       "category": 6,
       "location": "San Francisco Innovation Hub, CA",
-      "asset": "https://images.unsplash.com/photo-1551836022-d5d88e9218df"
+      "asset": "event_images/8.jpg"
     }
   },
   {
@@ -165,7 +165,7 @@
       "time": "20:00:00",
       "category": 7,
       "location": "Los Angeles Grand Theater, CA",
-      "asset": "https://images.unsplash.com/photo-1573852424492-0d84a27a80f0"
+      "asset": "event_images/11.jpg"
     }
   },
   {
@@ -178,7 +178,7 @@
       "time": "19:30:00",
       "category": 7,
       "location": "Madison Square Garden, NY",
-      "asset": "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4"
+      "asset": "event_images/15.jpg"
     }
   },
   {
@@ -191,7 +191,7 @@
       "time": "20:00:00",
       "category": 7,
       "location": "Chicago Comedy Club, IL",
-      "asset": "https://images.unsplash.com/photo-1515169067863-5387f66e0a37"
+      "asset": "event_images/12.jpg"
     }
   }
 ]

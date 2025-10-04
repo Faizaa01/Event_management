@@ -52,16 +52,16 @@
 
 
 {% comment %} event lists {% endcomment %}
-<section class="py-16 bg-indigo-50">
+<section class="py-10 bg-indigo-50">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="mb-12">
+    <div class="mb-8">
       <h2 class="text-4xl font-bold text-black mb-4">Event Lists</h2>
       <p class="text-xl text-gray-700">Discover amazing events happening near you</p>
     </div>
 
     {% if request.user.is_authenticated %}
       {% if data %}
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {% for event in data %}
             <div class="bg-white rounded-lg shadow-lg overflow-hidden flex flex-col max-w-full h-auto mx-auto">
               <div class="w-full h-64 bg-gray-700 relative">
@@ -74,8 +74,8 @@
 
               <div class="p-6 flex flex-col">
                 <h2 class="text-3xl text-sky-900 mb-2 font-semibold">{{ event.name }}</h2>
-                <p class="text-gray-600 leading-relaxed mb-4">{{ event.description|truncatewords:20 }}</p>
-                <div class="flex flex-wrap gap-8 mb-6 justify-between">
+                <p class="text-gray-600 leading-relaxed mb-4">{{ event.description|truncatewords:10 }}</p>
+                <div class="flex flex-wrap gap-8 mb-2 justify-between">
                   <div class="flex items-center gap-4">
                     <div class="w-10 h-10 bg-violet-400 rounded-full flex items-center justify-center text-white">
                       <i class="fa-solid fa-location-dot"></i>
