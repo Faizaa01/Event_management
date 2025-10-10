@@ -32,7 +32,7 @@ def sign_up(request):
         if form.is_valid():
             user = form.save(commit=False)
             user.set_password(form.cleaned_data.get('password1'))
-            user.is_active = False
+            user.is_active = True
             user.save()
             
             participant_group, created = Group.objects.get_or_create(name='Participant')
@@ -175,6 +175,4 @@ class CustomPasswordResetConfirmView(PasswordResetConfirmView):
     def form_valid(self, form):
         return super().form_valid(form)
     
-
-
 
