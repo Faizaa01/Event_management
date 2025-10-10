@@ -13,7 +13,7 @@ def rsvp_activation_mail(sender, instance, action, pk_set=None, **kwargs):
         # print("RSVP email check....", participant_emails)
         send_mail(
             "RSVP Confirmation",
-            f"You have successfully RSVPed to the event: {instance.name}",
+            f"Congratulations!!! You have successfully Reserved to the event: {instance.name}",
             "faizaniha0062@gmail.com",
             participant_emails,
             fail_silently=False,
