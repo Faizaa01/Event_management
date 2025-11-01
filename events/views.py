@@ -120,7 +120,6 @@ def search_events(request):
 
 # Event
 
-
 class EventDetail(DetailView):
     model = Event
     pk_url_kwarg = 'id'
@@ -230,8 +229,6 @@ def delete_participant(request, id):
 
 
 # Category
-
-
 
 view_category_decorators = [login_required, permission_required("events.view_category", login_url='no-permission')]
 @method_decorator(view_category_decorators, name='dispatch')
