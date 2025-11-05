@@ -1,5 +1,62 @@
 [
   {
+    "model": "events.category",
+    "pk": 1,
+    "fields": {
+      "name": "Technology",
+      "description": "Events focused on innovations in technology, AI, robotics, and related industries."
+    }
+  },
+  {
+    "model": "events.category",
+    "pk": 2,
+    "fields": {
+      "name": "Social",
+      "description": "Events centered around social change, community building, leadership, and activism."
+    }
+  },
+  {
+    "model": "events.category",
+    "pk": 3,
+    "fields": {
+      "name": "Culture",
+      "description": "Events celebrating arts, music, dance, and cultural diversity from around the world."
+    }
+  },
+  {
+    "model": "events.category",
+    "pk": 4,
+    "fields": {
+      "name": "Education",
+      "description": "Events related to learning, workshops, fairs, and educational development for all ages."
+    }
+  },
+  {
+    "model": "events.category",
+    "pk": 5,
+    "fields": {
+      "name": "Sports",
+      "description": "Events promoting physical fitness, sports competitions, and wellness activities."
+    }
+  },
+  {
+    "model": "events.category",
+    "pk": 6,
+    "fields": {
+      "name": "Business",
+      "description": "Events focused on entrepreneurship, startups, networking, and corporate growth."
+    }
+  },
+  {
+    "model": "events.category",
+    "pk": 7,
+    "fields": {
+      "name": "Entertainment",
+      "description": "Events for music, movies, comedy, and live performances for general enjoyment."
+    }
+  },
+
+  {
     "model": "events.event",
     "pk": 1,
     "fields": {

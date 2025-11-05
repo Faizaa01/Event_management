@@ -11,7 +11,7 @@ User = get_user_model()
 @receiver(post_save, sender=User)
 def send_activation_email(sender, instance, created, **kwargs):
     if created:
-         # Disabled email confirmation temporarily
+        # Disabled email confirmation temporarily
         return
         # token = default_token_generator.make_token(instance)
         # activation_url = f"{settings.FRONTEND_URL}/users/activate/{instance.id}/{token}/"
