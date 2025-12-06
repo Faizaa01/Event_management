@@ -24,10 +24,7 @@ def is_participant(user):
 
 
 def home(request):
-    if request.user.is_authenticated:
-        events = Event.objects.select_related('category').prefetch_related('participants').all()
-    else:
-        events = None
+    events = Event.objects.select_related('category').prefetch_related('participants').all()
     context = {'data': events, 'query': ''}
     return render(request, 'home.html', context)
 

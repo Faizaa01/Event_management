@@ -38,12 +38,12 @@
         <div class="hidden sm:flex sm:space-x-4 sm:ml-6 sm:items-center">
             <a href="{% url 'home' %}" class="{% if request.resolver_match.url_name == 'home' %}bg-gray-900 text-white{% else %}text-gray-300 hover:bg-gray-700 hover:text-white{% endif %} rounded-md px-3 py-2 text-md font-medium">Home</a>
             <a href="{% url 'dashboard' %}" class="{% if request.resolver_match.url_name == 'dashboard' %}bg-gray-900 text-white{% else %}text-gray-300 hover:bg-gray-700 hover:text-white{% endif %} rounded-md px-3 py-2 text-md font-medium">Dashboard</a>
-            <a href="{% url 'create_event' %}" class="{% if request.resolver_match.url_name == 'Add-event' %}bg-gray-900 text-white{% else %}text-gray-300 hover:bg-gray-700 hover:text-white{% endif %} rounded-md px-3 py-2 text-md font-medium">Events</a>
-
+            
             {% if request.user.groups.first.name == 'Participant' %}
             <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-md font-medium">Contact</a>
             <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-md font-medium">About</a>
             {% elif request.user.groups.first.name == 'Organizer' or request.user.groups.first.name == 'Admin' %}
+            <a href="{% url 'create_event' %}" class="{% if request.resolver_match.url_name == 'Add-event' %}bg-gray-900 text-white{% else %}text-gray-300 hover:bg-gray-700 hover:text-white{% endif %} rounded-md px-3 py-2 text-md font-medium">Events</a>
             <a href="{% url 'list_participants' %}" class="{% if request.resolver_match.url_name == 'Add-participant' %}bg-gray-900 text-white{% else %}text-gray-300 hover:bg-gray-700 hover:text-white{% endif %} rounded-md px-3 py-2 text-md font-medium">Participants</a>
             <a href="{% url 'list_categories' %}" class="{% if request.resolver_match.url_name == 'Add-category' %}bg-gray-900 text-white{% else %}text-gray-300 hover:bg-gray-700 hover:text-white{% endif %} rounded-md px-3 py-2 text-md font-medium">Categories</a>
             {% endif %}
@@ -61,6 +61,9 @@
                     </button>
                     <div id="profile-menu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-50">
                         <a href="{% url 'profile' %}" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Profile</a>
+                        {% if request.user.groups.first.name == 'Admin' %}
+                        <a href="{% url 'participants_list' %}" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">User Lists</a>
+                        {% endif %}
                         <a href="{% url 'sign_out' %}" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Logout</a>
                     </div>
                 </div>
